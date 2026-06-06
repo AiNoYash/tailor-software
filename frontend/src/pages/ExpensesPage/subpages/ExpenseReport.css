@@ -1,0 +1,214 @@
+/* ============================================
+   EXPENSE REPORT SUB-PAGE
+   ============================================ */
+
+.expense-report-page {
+    padding: 24px 20px;
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+/* ---- Filter Section ---- */
+.expense-report-filter-section {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 24px;
+}
+
+.expense-report-filter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.expense-report-filter-form .btn-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* ---- Results Section ---- */
+.expense-report-results-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.expense-report-loading,
+.expense-report-empty {
+    text-align: center;
+    color: var(--color-text-muted);
+    padding: 32px 0;
+    font-size: 0.9rem;
+}
+
+/* ---- Table Header ---- */
+.expense-report-table-header {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 8px;
+    padding: 12px 16px;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px 8px 0 0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+}
+
+/* ---- Report Rows ---- */
+.expense-report-rows {
+    display: flex;
+    flex-direction: column;
+}
+
+.expense-report-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 8px;
+    align-items: center;
+    padding: 13px 16px;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-top: none;
+    transition: background-color 0.15s ease;
+}
+
+.expense-report-row:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* ---- Totals Row ---- */
+.expense-report-totals-row {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 8px;
+    align-items: center;
+    padding: 14px 16px;
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--color-border);
+    border-top: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0 0 8px 8px;
+    font-weight: 700;
+}
+
+/* ---- Column Styles ---- */
+.exprpt-col--date {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+}
+
+.exprpt-col--desc {
+    font-size: 0.9rem;
+    color: var(--color-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.exprpt-col--amount {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+    text-align: right;
+}
+
+.exprpt-col--total-label {
+    text-align: right;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+}
+
+/* ============================================
+   RESPONSIVE — MOBILE
+   ============================================ */
+
+@media (max-width: 540px) {
+    .expense-report-page {
+        padding: 16px 14px;
+        gap: 24px;
+    }
+
+    .expense-report-filter-section {
+        padding: 18px 14px;
+    }
+
+    .form-row--2col {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    /* Hide table header on mobile */
+    .expense-report-table-header {
+        display: none;
+    }
+
+    /* Card layout for rows */
+    .expense-report-row,
+    .expense-report-totals-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+        padding: 14px 14px;
+        border-radius: 0;
+    }
+
+    .expense-report-row:first-child {
+        border-radius: 8px 8px 0 0;
+    }
+
+    .expense-report-row {
+        border-top: 1px solid var(--color-border);
+    }
+
+    .expense-report-totals-row {
+        border-radius: 0 0 8px 8px;
+    }
+
+    /* Show data-label on mobile */
+    .expense-report-row .exprpt-col,
+    .expense-report-totals-row .exprpt-col {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .expense-report-row .exprpt-col::before {
+        content: attr(data-label);
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--color-text-muted);
+        min-width: fit-content;
+    }
+
+    .exprpt-col--desc {
+        width: 100%;
+        font-size: 0.95rem;
+        white-space: normal;
+        margin-bottom: 4px;
+    }
+
+    .exprpt-col--desc::before {
+        display: none !important;
+    }
+
+    .exprpt-col--amount {
+        margin-left: auto;
+    }
+
+    .exprpt-col--total-label {
+        width: 100%;
+        text-align: left;
+    }
+}

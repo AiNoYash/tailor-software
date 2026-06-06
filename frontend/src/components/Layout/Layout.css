@@ -1,0 +1,33 @@
+/* ============================================
+   LAYOUT
+   ============================================ */
+
+.layout {
+    min-height: 100vh;
+    background-color: var(--color-bg);
+}
+
+.layout__content {
+    padding-top: 56px;   /* space for top nav header */
+    padding-bottom: 48px; /* space for language footer */
+    min-height: 100vh;
+}
+
+.layout__content--with-bottom-nav {
+    padding-bottom: 100px; /* language footer + bottom nav trigger */
+}
+
+/* ============================================
+   RESPONSIVE — MOBILE
+   ============================================ */
+
+@media (max-width: 480px) {
+    .layout__content {
+        padding-top: 50px;
+        padding-bottom: 44px;
+    }
+
+    .layout__content--with-bottom-nav {
+        padding-bottom: 92px;
+    }
+}

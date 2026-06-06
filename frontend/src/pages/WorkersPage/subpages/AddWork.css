@@ -1,0 +1,276 @@
+/* ============================================
+   ADD WORK SUB-PAGE
+   ============================================ */
+
+.add-work-page {
+    padding: 24px 20px;
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+/* ---- Form Section ---- */
+.work-form-section {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: border-color 0.2s ease;
+}
+
+.work-form-section--editing {
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.work-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-row--2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+/* Select dropdown */
+.form-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+    cursor: pointer;
+}
+
+.form-select option {
+    background-color: var(--color-surface);
+    color: var(--color-text);
+}
+
+/* Date input coloring */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
+
+/* Number input — remove spinners */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* Form actions — 2 column buttons */
+.form-actions--2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+/* Secondary button */
+.btn-secondary {
+    width: 100%;
+    padding: 12px 0;
+    background-color: transparent;
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary:hover:not(:disabled) {
+    color: var(--color-text);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.btn-secondary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ---- Records Section ---- */
+.work-records-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.work-loading,
+.work-empty {
+    text-align: center;
+    color: var(--color-text-muted);
+    padding: 32px 0;
+    font-size: 0.9rem;
+}
+
+/* ---- Table Header ---- */
+.work-table-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr 1fr;
+    gap: 8px;
+    padding: 10px 16px;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+}
+
+/* ---- Record Row ---- */
+.work-records-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.work-record {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr 1fr;
+    gap: 8px;
+    align-items: center;
+    padding: 12px 16px;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    transition: border-color 0.2s ease;
+}
+
+.work-record:hover {
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+.work-record--editing {
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Columns */
+.work-col--name {
+    font-weight: 600;
+    color: var(--color-text);
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.work-col--pants,
+.work-col--shirts {
+    font-size: 0.9rem;
+    color: var(--color-text);
+    text-align: center;
+}
+
+.work-col--date {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+}
+
+.work-col--actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    justify-content: flex-end;
+}
+
+/* ============================================
+   RESPONSIVE — MOBILE (stack to card layout)
+   ============================================ */
+
+@media (max-width: 540px) {
+    .add-work-page {
+        padding: 16px 14px;
+        gap: 24px;
+    }
+
+    .work-form-section {
+        padding: 18px 14px;
+    }
+
+    .form-row--2col {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .form-actions--2col {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    /* Hide table header on mobile */
+    .work-table-header {
+        display: none;
+    }
+
+    /* Card layout for records */
+    .work-record {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 14px 14px;
+    }
+
+    /* Show data-label on mobile */
+    .work-record .work-col {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .work-record .work-col::before {
+        content: attr(data-label);
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--color-text-muted);
+        min-width: fit-content;
+    }
+
+    .work-col--name {
+        width: 100%;
+        font-size: 0.95rem;
+    }
+
+    .work-col--name::before {
+        display: none !important;
+    }
+
+    .work-col--pants,
+    .work-col--shirts {
+        text-align: left;
+    }
+
+    .work-col--date {
+        flex: 1;
+    }
+
+    .work-col--actions {
+        margin-left: auto;
+    }
+
+    .work-col--actions::before {
+        display: none !important;
+    }
+}
+
+@media (max-width: 380px) {
+    .form-actions--2col {
+        grid-template-columns: 1fr;
+    }
+}

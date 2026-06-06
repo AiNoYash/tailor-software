@@ -1,0 +1,186 @@
+/* ============================================
+   ADD EXPENSE SUB-PAGE
+   ============================================ */
+
+.add-expense-page {
+    padding: 24px 20px;
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+/* ---- Form Section ---- */
+.add-expense-form-section {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: border-color 0.2s ease;
+}
+
+.add-expense-form-section--editing {
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.add-expense-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ---- Records Section ---- */
+.add-expense-records-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.expense-loading,
+.expense-empty {
+    text-align: center;
+    color: var(--color-text-muted);
+    padding: 32px 0;
+    font-size: 0.9rem;
+}
+
+/* ---- Table Header ---- */
+.expense-table-header {
+    display: grid;
+    grid-template-columns: 1.2fr 2fr 1fr 1fr;
+    gap: 8px;
+    padding: 10px 16px;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+}
+
+/* ---- Record Row ---- */
+.expense-records-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.expense-record {
+    display: grid;
+    grid-template-columns: 1.2fr 2fr 1fr 1fr;
+    gap: 8px;
+    align-items: center;
+    padding: 12px 16px;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    transition: border-color 0.2s ease;
+}
+
+.expense-record:hover {
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+.expense-record--editing {
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Columns */
+.exp-col--date {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+}
+
+.exp-col--desc {
+    font-size: 0.9rem;
+    color: var(--color-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.exp-col--amount {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.exp-col--actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    justify-content: flex-end;
+}
+
+/* ============================================
+   RESPONSIVE — MOBILE
+   ============================================ */
+
+@media (max-width: 540px) {
+    .add-expense-page {
+        padding: 16px 14px;
+        gap: 24px;
+    }
+
+    .add-expense-form-section {
+        padding: 18px 14px;
+    }
+
+    /* Hide table header on mobile */
+    .expense-table-header {
+        display: none;
+    }
+
+    /* Card layout for records */
+    .expense-record {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 14px 14px;
+    }
+
+    .expense-record .exp-col {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .expense-record .exp-col::before {
+        content: attr(data-label);
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--color-text-muted);
+        min-width: fit-content;
+    }
+
+    .exp-col--desc {
+        width: 100%;
+        font-size: 0.95rem;
+        white-space: normal;
+        margin-bottom: 4px;
+    }
+
+    .exp-col--desc::before {
+        display: none !important;
+    }
+
+    .exp-col--date {
+        flex: 1;
+    }
+
+    .exp-col--actions {
+        margin-left: auto;
+    }
+
+    .exp-col--actions::before {
+        display: none !important;
+    }
+}

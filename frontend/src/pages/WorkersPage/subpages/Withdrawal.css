@@ -1,0 +1,185 @@
+/* ============================================
+   WITHDRAWAL SUB-PAGE
+   ============================================ */
+
+.withdrawal-page {
+    padding: 24px 20px;
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+/* ---- Form Section ---- */
+.withdrawal-form-section {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: border-color 0.2s ease;
+}
+
+.withdrawal-form-section--editing {
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.withdrawal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ---- Records Section ---- */
+.withdrawal-records-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.withdrawal-loading,
+.withdrawal-empty {
+    text-align: center;
+    color: var(--color-text-muted);
+    padding: 32px 0;
+    font-size: 0.9rem;
+}
+
+/* ---- Table Header ---- */
+.withdrawal-table-header {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr 1.5fr 1fr;
+    gap: 8px;
+    padding: 10px 16px;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+}
+
+/* ---- Record Row ---- */
+.withdrawal-records-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.withdrawal-record {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr 1.5fr 1fr;
+    gap: 8px;
+    align-items: center;
+    padding: 12px 16px;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    transition: border-color 0.2s ease;
+}
+
+.withdrawal-record:hover {
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+.withdrawal-record--editing {
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Columns */
+.wd-col--name {
+    font-weight: 600;
+    color: var(--color-text);
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.wd-col--amount {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.wd-col--date {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+}
+
+.wd-col--actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    justify-content: flex-end;
+}
+
+/* ============================================
+   RESPONSIVE — MOBILE
+   ============================================ */
+
+@media (max-width: 540px) {
+    .withdrawal-page {
+        padding: 16px 14px;
+        gap: 24px;
+    }
+
+    .withdrawal-form-section {
+        padding: 18px 14px;
+    }
+
+    /* Hide table header on mobile */
+    .withdrawal-table-header {
+        display: none;
+    }
+
+    /* Card layout for records */
+    .withdrawal-record {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 14px 14px;
+    }
+
+    .withdrawal-record .wd-col {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .withdrawal-record .wd-col::before {
+        content: attr(data-label);
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--color-text-muted);
+        min-width: fit-content;
+    }
+
+    .wd-col--name {
+        width: 100%;
+        font-size: 0.95rem;
+    }
+
+    .wd-col--name::before {
+        display: none !important;
+    }
+
+    .wd-col--date {
+        flex: 1;
+    }
+
+    .wd-col--actions {
+        margin-left: auto;
+    }
+
+    .wd-col--actions::before {
+        display: none !important;
+    }
+}

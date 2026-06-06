@@ -1,0 +1,79 @@
+/* ============================================
+   DESIGN TOKENS — MONOCHROME THEME
+   ============================================ */
+
+:root {
+    --color-bg: #0a0a0a;
+    --color-surface: #141414;
+    --color-surface-hover: #1e1e1e;
+    --color-border: rgba(255, 255, 255, 0.1);
+    --color-text: #f5f5f5;
+    --color-text-muted: #888888;
+    --color-accent: #ffffff;
+    --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    --radius: 12px;
+}
+
+/* ============================================
+   BASE APP STYLES
+   ============================================ */
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ============================================
+   PLACEHOLDER PAGE — SHARED STYLE
+   Used for Coming Soon pages
+   ============================================ */
+
+.placeholder-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 160px);
+    padding: 32px 20px;
+}
+
+.placeholder-card {
+    text-align: center;
+    color: var(--color-text-muted);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.placeholder-card h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.placeholder-card p {
+    font-size: 0.9rem;
+    max-width: none;
+}
+
+@media (max-width: 480px) {
+    .placeholder-page {
+        min-height: calc(100vh - 140px);
+        padding: 24px 16px;
+    }
+
+    .placeholder-card h2 {
+        font-size: 1.1rem;
+    }
+
+    .placeholder-card p {
+        font-size: 0.85rem;
+    }
+}

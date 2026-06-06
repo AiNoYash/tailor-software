@@ -1,0 +1,339 @@
+/* ============================================
+   WORKERS LIST SUB-PAGE
+   ============================================ */
+
+.workers-list-page {
+    padding: 24px 20px;
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+/* ---- Section Heading ---- */
+.section-heading-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0;
+}
+
+/* ---- Add Worker Form ---- */
+.workers-add-section {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: border-color 0.2s ease;
+}
+
+.workers-add-section--editing {
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.workers-add-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+}
+
+.form-input {
+    width: 100%;
+    padding: 11px 14px;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-size: 0.9rem;
+    transition: border-color 0.2s ease;
+    outline: none;
+}
+
+.form-input::placeholder {
+    color: rgba(255, 255, 255, 0.25);
+}
+
+.form-input:focus {
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+.form-input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Messages */
+.form-error {
+    font-size: 0.85rem;
+    color: #e74c3c;
+    padding: 8px 12px;
+    background-color: rgba(231, 76, 60, 0.08);
+    border: 1px solid rgba(231, 76, 60, 0.2);
+    border-radius: 6px;
+}
+
+.form-success {
+    font-size: 0.85rem;
+    color: #2ecc71;
+    padding: 8px 12px;
+    background-color: rgba(46, 204, 113, 0.08);
+    border: 1px solid rgba(46, 204, 113, 0.2);
+    border-radius: 6px;
+}
+
+/* Actions */
+.form-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+/* Primary Button */
+.btn-primary {
+    width: 100%;
+    padding: 12px 0;
+    background-color: var(--color-text);
+    color: var(--color-bg);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: opacity 0.2s ease;
+}
+
+.btn-primary:hover:not(:disabled) {
+    opacity: 0.88;
+}
+
+.btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ---- Workers List ---- */
+.workers-list-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.workers-loading {
+    text-align: center;
+    color: var(--color-text-muted);
+    padding: 32px 0;
+    font-size: 0.9rem;
+}
+
+.workers-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* ---- Worker Card ---- */
+.worker-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    transition: border-color 0.2s ease;
+}
+
+.worker-card:hover {
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+.worker-card--admin {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.worker-card--editing {
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* View mode */
+.worker-card__view {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.worker-card__info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.worker-card__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background-color: var(--color-bg);
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+}
+
+.worker-card--admin .worker-card__icon {
+    color: var(--color-text);
+}
+
+.worker-card__details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.worker-card__name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.worker-card__mobile {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+}
+
+.worker-card__badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background-color: var(--color-bg);
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+}
+
+.worker-card__badge--admin {
+    color: var(--color-text);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.worker-card__actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Icon buttons */
+.btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    color: var(--color-text-muted);
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.btn-icon:hover {
+    background-color: var(--color-surface-hover);
+    color: var(--color-text);
+}
+
+.btn-icon--edit:hover {
+    color: var(--color-text);
+}
+
+.btn-icon--delete:hover {
+    color: #e74c3c;
+    background-color: rgba(231, 76, 60, 0.12);
+}
+
+.btn-icon--cancel-edit {
+    width: 32px;
+    height: 32px;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.btn-icon--cancel-edit:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.btn-icon:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* ============================================
+   RESPONSIVE — MOBILE
+   ============================================ */
+
+@media (max-width: 480px) {
+    .workers-list-page {
+        padding: 16px 14px;
+        gap: 24px;
+    }
+
+    .workers-add-section {
+        padding: 18px 14px;
+    }
+
+    .section-heading-row {
+        margin-bottom: 12px;
+    }
+
+    .section-heading {
+        font-size: 1rem;
+    }
+
+    .worker-card {
+        padding: 12px 14px;
+    }
+
+    .worker-card__name {
+        font-size: 0.9rem;
+    }
+
+    .worker-card__badge {
+        font-size: 0.65rem;
+        padding: 3px 8px;
+    }
+
+    .btn-primary {
+        padding: 11px 0;
+        font-size: 0.85rem;
+    }
+}
