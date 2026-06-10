@@ -12,6 +12,7 @@ const workRoutes = require('./routes/workRoutes');
 const withdrawalRoutes = require('./routes/withdrawalRoutes');
 const reportRoutes = require('./routes/reportRoutes');
 const expenseRoutes = require('./routes/expenseRoutes');
+const orderRoutes = require('./routes/orderRoutes');
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use('/api/work', workRoutes);
 app.use('/api/withdrawals', withdrawalRoutes);
 app.use('/api/report', reportRoutes);
 app.use('/api/expenses', expenseRoutes);
+app.use('/api/orders', orderRoutes);
 
 // Basic health check route
 app.get('/lol', (req, res) => {

@@ -18,7 +18,9 @@ const navConfig = [
         path: '/customer',
         roles: ['admin', 'worker'],
         subPages: [
-            { key: 'customer', labelKey: 'nav.customer', icon: 'Users', path: '/customer' },
+            { key: 'add-order', labelKey: 'nav.customer.add_order', icon: 'PlusCircle', path: '/customer' },
+            { key: 'search', labelKey: 'nav.customer.search', icon: 'Search', path: '/customer/search' },
+            { key: 'report', labelKey: 'nav.customer.report', icon: 'FileText', path: '/customer/report' },
         ],
     },
     {

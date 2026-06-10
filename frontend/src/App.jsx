@@ -4,6 +4,9 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Layout from './components/Layout/Layout';
 import LoginPage from './pages/LoginPage/LoginPage';
 import CustomerPage from './pages/CustomerPage/CustomerPage';
+import AddOrder from './pages/CustomerPage/subpages/AddOrder';
+import SearchOrder from './pages/CustomerPage/subpages/SearchOrder';
+import OrderReport from './pages/CustomerPage/subpages/OrderReport';
 import WorkersPage from './pages/WorkersPage/WorkersPage';
 import WorkersList from './pages/WorkersPage/subpages/WorkersList';
 import AddWork from './pages/WorkersPage/subpages/AddWork';
@@ -39,7 +42,11 @@ function App() {
                         </Layout>
                     </ProtectedRoute>
                 }
-            />
+            >
+                <Route index element={<AddOrder />} />
+                <Route path="search" element={<SearchOrder />} />
+                <Route path="report" element={<OrderReport />} />
+            </Route>
 
             {/* Workers — admin only, has sub-pages */}
             <Route
