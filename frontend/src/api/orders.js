@@ -63,3 +63,16 @@ export const searchOrders = async (params, token) => {
     if (!response.ok) throw new Error(data.message || 'Failed to search orders');
     return data;
 };
+
+export const fetchOrderReport = async (params, token) => {
+    const query = new URLSearchParams();
+    if (params.from_date) query.append('from_date', params.from_date);
+    if (params.to_date) query.append('to_date', params.to_date);
+
+    const response = await fetch(`${API_BASE}/orders/report?${query.toString()}`, {
+        headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || 'Failed to fetch order report');
+    return data;
+};

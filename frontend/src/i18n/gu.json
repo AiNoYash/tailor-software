@@ -232,6 +232,23 @@
   "search.delete_confirm": "શું તમે ખરેખર આ ઓર્ડર કાઢી નાખવા માંગો છો?",
   
 
+  "order_report.heading": "ઓર્ડર રિપોર્ટ",
+  "order_report.from": "થી તારીખ",
+  "order_report.to": "સુધી તારીખ",
+  "order_report.submit": "રિપોર્ટ બનાવો",
+  "order_report.loading": "લોડ થઈ રહ્યું છે...",
+  "order_report.error.dates_required": "બંને તારીખો જરૂરી છે",
+  "order_report.empty": "પસંદ કરેલ સમયગાળા માટે કોઈ ઓર્ડર મળ્યો નથી",
+  "order_report.col.bill_no": "બિલ નં.",
+  "order_report.col.name": "ગ્રાહકનું નામ",
+  "order_report.col.date": "તારીખ",
+  "order_report.col.pants": "પેન્ટ",
+  "order_report.col.shirts": "શર્ટ",
+  "order_report.col.deposit": "જમા",
+  "order_report.col.total": "કુલ કાપડ",
+  "order_report.col.remaining": "બાકી",
+  "order_report.total_label": "ગ્રાન્ડ ટોટલ:",
+
   "placeholder.title": "ટૂંક સમયમાં આવી રહ્યું છે",
   "placeholder.message": "આ વિભાગ વિકાસ હેઠળ છે.",
 

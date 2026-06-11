@@ -232,6 +232,23 @@
   "search.delete_confirm": "Are you sure you want to delete this order?",
 
 
+  "order_report.heading": "Order Report",
+  "order_report.from": "From Date",
+  "order_report.to": "To Date",
+  "order_report.submit": "Generate Report",
+  "order_report.loading": "Loading...",
+  "order_report.error.dates_required": "Both dates are required",
+  "order_report.empty": "No orders found for the selected period",
+  "order_report.col.bill_no": "Bill No.",
+  "order_report.col.name": "Customer Name",
+  "order_report.col.date": "Date",
+  "order_report.col.pants": "Pants",
+  "order_report.col.shirts": "Shirts",
+  "order_report.col.deposit": "Deposit",
+  "order_report.col.total": "Total Cloth",
+  "order_report.col.remaining": "Remaining",
+  "order_report.total_label": "Grand Total:",
+
   "placeholder.title": "Coming Soon",
   "placeholder.message": "This section is under development.",
 

@@ -204,5 +204,68 @@ const search = async (req, res) => {
         return res.status(500).json({ message: 'Internal server error' });
     }
 };
+/**
+ * GET /api/orders/report
+ * Aggregates order data within a date range.
+ * Returns per-bill: bill_no, customer_name, order_date, total_pants, total_shirts, total_amount, deposit_amount, remaining.
+ * Also returns overall totals.
+ */
+const report = async (req, res) => {
+    try {
+        const { from_date, to_date } = req.query;
 
-module.exports = { getById, create, update, remove, search };
+        if (!from_date || !to_date) {
+            return res.status(400).json({ message: 'from_date and to_date are required' });
+        }
+
+        const [rows] = await db.execute(
+            `SELECT
+                o.id AS bill_no,
+                o.customer_name,
+                o.order_date,
+                o.total_amount,
+                o.deposit_amount,
+                COALESCE(SUM(CASE WHEN oi.item_type = 'pant' THEN oi.quantity ELSE 0 END), 0) AS total_pants,
+                COALESCE(SUM(CASE WHEN oi.item_type = 'shirt' THEN oi.quantity ELSE 0 END), 0) AS total_shirts
+             FROM orders o
+             LEFT JOIN order_items oi ON oi.order_id = o.id
+             WHERE o.order_date >= ? AND o.order_date <= ?
+             GROUP BY o.id
+             ORDER BY o.order_date DESC, o.id DESC`,
+            [from_date, to_date]
+        );
+
+        // Compute remaining for each row and totals
+        let totalPants = 0, totalShirts = 0, totalAmount = 0, totalDeposit = 0;
+        const records = rows.map((r) => {
+            const amt = Number(r.total_amount) || 0;
+            const dep = Number(r.deposit_amount) || 0;
+            totalPants += Number(r.total_pants);
+            totalShirts += Number(r.total_shirts);
+            totalAmount += amt;
+            totalDeposit += dep;
+            return {
+                ...r,
+                total_amount: amt,
+                deposit_amount: dep,
+                remaining: Math.max(0, amt - dep),
+            };
+        });
+
+        return res.status(200).json({
+            records,
+            totals: {
+                total_pants: totalPants,
+                total_shirts: totalShirts,
+                total_amount: totalAmount,
+                deposit_amount: totalDeposit,
+                remaining: Math.max(0, totalAmount - totalDeposit),
+            },
+        });
+    } catch (error) {
+        console.error('order report error:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+module.exports = { getById, create, update, remove, search, report };

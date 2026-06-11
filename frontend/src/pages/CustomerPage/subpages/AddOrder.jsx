@@ -1,5 +1,6 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { Search } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
 import useAuthStore from '../../../store/useAuthStore';
 import useLanguageStore from '../../../store/useLanguageStore';
 import { t } from '../../../i18n';
@@ -136,6 +137,7 @@ const AddOrder = () => {
     const token = useAuthStore((state) => state.token);
     const language = useLanguageStore((state) => state.language);
     const formRef = useRef(null);
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const [billNo, setBillNo] = useState('');
     const [isEditing, setIsEditing] = useState(false);
@@ -147,12 +149,15 @@ const AddOrder = () => {
     const [formError, setFormError] = useState('');
 
     /* ── bill number lookup ── */
-    const handleBillLookup = async () => {
-        if (!billNo.trim()) return;
+    const handleBillLookup = useCallback(async (overrideBillNo) => {
+        const id = (overrideBillNo ?? billNo).toString().trim();
+        if (!id) return;
         try {
-            const data = await fetchOrder(billNo.trim(), token);
+            const data = await fetchOrder(id, token);
             const order = data.order;
             const items = data.items || [];
+
+            setBillNo(id);
 
             setCustomer({
                 customer_name: order.customer_name || '',
@@ -203,7 +208,17 @@ const AddOrder = () => {
         } catch (err) {
             setFormError(err.message);
         }
-    };
+    }, [billNo, token]);
+
+    /* ── auto-load bill from URL query param ── */
+    useEffect(() => {
+        const billParam = searchParams.get('bill');
+        if (billParam) {
+            handleBillLookup(billParam);
+            // Clean up the URL so a page refresh doesn't re-trigger
+            setSearchParams({}, { replace: true });
+        }
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     /* ── measurement helpers ── */
     const updatePantMeasurement = (key, val) => {
@@ -338,7 +353,7 @@ const AddOrder = () => {
                             <button
                                 type="button"
                                 className="btn-icon btn-icon--search"
-                                onClick={handleBillLookup}
+                                onClick={() => handleBillLookup()}
                                 aria-label="Search bill"
                             >
                                 <Search size={18} />

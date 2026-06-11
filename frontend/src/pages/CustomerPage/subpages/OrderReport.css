@@ -1,0 +1,224 @@
+/* ============================================
+   ORDER REPORT SUB-PAGE
+   ============================================ */
+
+.order-report-page {
+    padding: 24px 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+/* ---- Filter Section ---- */
+.order-report-filter-section {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 24px;
+}
+
+.order-report-filter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.order-report-filter-form .btn-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* ---- Results Section ---- */
+.order-report-results-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.order-report-loading,
+.order-report-empty {
+    text-align: center;
+    color: var(--color-text-muted);
+    padding: 32px 0;
+    font-size: 0.9rem;
+}
+
+/* ---- Table Header ---- */
+.order-report-table-header {
+    display: grid;
+    grid-template-columns: 0.6fr 1.4fr 0.9fr 0.5fr 0.5fr 0.8fr 0.8fr 0.8fr;
+    gap: 8px;
+    padding: 12px 16px;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px 8px 0 0;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+}
+
+/* ---- Report Rows ---- */
+.order-report-rows {
+    display: flex;
+    flex-direction: column;
+}
+
+.order-report-row {
+    display: grid;
+    grid-template-columns: 0.6fr 1.4fr 0.9fr 0.5fr 0.5fr 0.8fr 0.8fr 0.8fr;
+    gap: 8px;
+    align-items: center;
+    padding: 13px 16px;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-top: none;
+    transition: background-color 0.15s ease;
+}
+
+.order-report-row:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* ---- Totals Row ---- */
+.order-report-totals-row {
+    display: grid;
+    grid-template-columns: 2.9fr 0.5fr 0.5fr 0.8fr 0.8fr 0.8fr;
+    gap: 8px;
+    align-items: center;
+    padding: 14px 16px;
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--color-border);
+    border-top: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0 0 8px 8px;
+    font-weight: 700;
+}
+
+/* ---- Column Styles ---- */
+.orpt-col--bill {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.orpt-col--name {
+    font-size: 0.88rem;
+    color: var(--color-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.orpt-col--date {
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+}
+
+.orpt-col--pants,
+.orpt-col--shirts {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--color-text);
+    text-align: center;
+}
+
+.orpt-col--deposit,
+.orpt-col--total,
+.orpt-col--remaining {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text);
+    text-align: right;
+}
+
+.orpt-col--total-label {
+    text-align: right;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+}
+
+/* ============================================
+   RESPONSIVE — MOBILE
+   ============================================ */
+
+@media (max-width: 640px) {
+    .order-report-page {
+        padding: 16px 14px;
+        gap: 24px;
+    }
+
+    .order-report-filter-section {
+        padding: 18px 14px;
+    }
+
+    /* Hide table header on mobile */
+    .order-report-table-header {
+        display: none;
+    }
+
+    /* Card layout for rows */
+    .order-report-row,
+    .order-report-totals-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 16px;
+        padding: 14px 14px;
+        border-radius: 0;
+    }
+
+    .order-report-row:first-child {
+        border-radius: 8px 8px 0 0;
+    }
+
+    .order-report-row {
+        border-top: 1px solid var(--color-border);
+    }
+
+    .order-report-totals-row {
+        border-radius: 0 0 8px 8px;
+    }
+
+    /* Show data-label on mobile */
+    .order-report-row .orpt-col {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .order-report-row .orpt-col::before {
+        content: attr(data-label);
+        font-size: 0.65rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--color-text-muted);
+        min-width: fit-content;
+    }
+
+    .orpt-col--name {
+        width: 100%;
+        font-size: 0.95rem;
+        white-space: normal;
+        margin-bottom: 2px;
+    }
+
+    .orpt-col--name::before {
+        display: none !important;
+    }
+
+    .orpt-col--remaining {
+        margin-left: auto;
+    }
+
+    .orpt-col--total-label {
+        width: 100%;
+        text-align: left;
+    }
+}

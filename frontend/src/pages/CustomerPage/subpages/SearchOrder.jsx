@@ -51,7 +51,7 @@ const SearchOrder = () => {
 
     const handleEdit = (id) => {
         // Assuming AddOrder page acts as the editor when bill_no is inputted
-        navigate(`/customer/add-order?bill=${id}`);
+        navigate(`/customer?bill=${id}`);
     };
 
     return (

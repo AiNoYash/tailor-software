@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const { verifyToken } = require('../middleware/authMiddleware');
-const { search, getById, create, update, remove } = require('../controller/orderController');
+const { search, getById, create, update, remove, report } = require('../controller/orderController');
 
 // All routes require auth (both admin + worker can create orders)
 router.use(verifyToken);
 
 router.get('/', search);
+router.get('/report', report);
 router.get('/:id', getById);
 router.post('/', create);
 router.put('/:id', update);

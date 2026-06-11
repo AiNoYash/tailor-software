@@ -223,6 +223,23 @@
   "search.delete_confirm": "क्या आप वाकई इस ऑर्डर को हटाना चाहते हैं?",
   
   
+  "order_report.heading": "ऑर्डर रिपोर्ट",
+  "order_report.from": "से तारीख",
+  "order_report.to": "तक तारीख",
+  "order_report.submit": "रिपोर्ट बनाएं",
+  "order_report.loading": "लोड हो रहा है...",
+  "order_report.error.dates_required": "दोनों तारीखें आवश्यक हैं",
+  "order_report.empty": "चयनित अवधि के लिए कोई ऑर्डर नहीं मिला",
+  "order_report.col.bill_no": "बिल नं.",
+  "order_report.col.name": "ग्राहक का नाम",
+  "order_report.col.date": "तारीख",
+  "order_report.col.pants": "पेंट",
+  "order_report.col.shirts": "शर्ट",
+  "order_report.col.deposit": "जमा",
+  "order_report.col.total": "कुल कपड़ा",
+  "order_report.col.remaining": "बाकी",
+  "order_report.total_label": "कुल योग:",
+
   "placeholder.title": "जल्द आ रहा है",
   "placeholder.message": "यह अनुभाग विकास में है।",
   "footer.english": "English",
