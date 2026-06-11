@@ -6,6 +6,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 
 const initSchema = require('./config/initSchema');
+
 const authRoutes = require('./routes/authRoutes');
 const workerRoutes = require('./routes/workerRoutes');
 const workRoutes = require('./routes/workRoutes');

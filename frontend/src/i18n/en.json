@@ -211,6 +211,27 @@
   "order.shirt.opt.fold_patti": "Fold Patti",
   "order.shirt.opt.half_bai": "Half Bai",
 
+  "order.pant.type.hald rubber pant": "Half Rubber Pant",
+  "order.pant.type.jeans": "Jeans",
+  "order.pant.type.cottan jeans": "Cotton Jeans",
+  "order.pant.type.chudidar faratu rabar": "Chudidar Faratu Rabar",
+  "order.shirt.type.bushirt": "Bushirt",
+  "order.shirt.type.short shirt": "Short Shirt",
+  "order.shirt.type.open kurto": "Open Kurto",
+  "order.shirt.type.kurto": "Kurto",
+  "order.shirt.type.zabhbho": "Zabhbho",
+  "order.shirt.type.safari": "Safari",
+  "order.shirt.type.sheravani": "Sherwani",
+  "order.shirt.type.koti": "Koti",
+  "order.shirt.type.suit": "Suit",
+  "order.shirt.type.blezer": "Blazer",
+  "order.shirt.type.indo western": "Indo Western",
+  "order.shirt.type.highneck kurto": "Highneck Kurto",
+
+  "search.empty": "No orders found matching the criteria.",
+  "search.delete_confirm": "Are you sure you want to delete this order?",
+
+
   "placeholder.title": "Coming Soon",
   "placeholder.message": "This section is under development.",
 

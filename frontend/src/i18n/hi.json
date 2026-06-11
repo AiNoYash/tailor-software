@@ -1,6 +1,5 @@
 {
   "app.title": "Raj Selection",
-
   "login.heading": "साइन इन",
   "login.subheading": "जारी रखने के लिए अपना विवरण दर्ज करें",
   "login.mobile": "मोबाइल नंबर",
@@ -15,7 +14,6 @@
   "login.error.invalid": "गलत मोबाइल नंबर, पासवर्ड, या भूमिका",
   "login.error.server": "सर्वर त्रुटि। कृपया बाद में पुनः प्रयास करें।",
   "login.error.required": "सभी फ़ील्ड आवश्यक हैं",
-
   "nav.customer": "ग्राहक",
   "nav.customer.add_order": "नया ऑर्डर",
   "nav.customer.search": "खोज",
@@ -30,7 +28,6 @@
   "nav.workers.report": "रिपोर्ट",
   "nav.menu": "मेनू",
   "nav.logout": "लॉग आउट",
-
   "workers.title": "कारीगर",
   "workers.add_heading": "नया कारीगर जोड़ें",
   "workers.update_heading": "'{{name}}' अपडेट करें",
@@ -60,7 +57,6 @@
   "workers.success.created": "कारीगर सफलतापूर्वक जोड़ा गया",
   "workers.success.updated": "कारीगर सफलतापूर्वक अपडेट किया गया",
   "workers.success.deleted": "कारीगर सफलतापूर्वक हटा दिया गया",
-
   "work.add_heading": "काम का रिकॉर्ड जोड़ें",
   "work.update_heading": "काम अपडेट करें — {{name}}",
   "work.worker": "कारीगर",
@@ -87,7 +83,6 @@
   "work.col.shirts": "शर्ट",
   "work.col.date": "तारीख",
   "work.col.actions": "कार्रवाई",
-
   "withdrawal.add_heading": "निकासी जोड़ें",
   "withdrawal.update_heading": "निकासी अपडेट करें — {{name}}",
   "withdrawal.worker": "कारीगर",
@@ -113,7 +108,6 @@
   "withdrawal.col.amount": "राशि",
   "withdrawal.col.date": "तारीख",
   "withdrawal.col.actions": "कार्रवाई",
-
   "report.heading": "काम की रिपोर्ट",
   "report.worker": "कारीगर",
   "report.worker.all": "सभी कारीगर",
@@ -128,7 +122,6 @@
   "report.col.shirts": "शर्ट",
   "report.col.withdrawal": "निकासी",
   "report.total": "कुल",
-
   "expense.add_heading": "खर्च जोड़ें",
   "expense.update_heading": "खर्च अपडेट करें",
   "expense.date": "तारीख",
@@ -154,7 +147,6 @@
   "expense.col.description": "विवरण",
   "expense.col.amount": "राशि",
   "expense.col.actions": "कार्रवाई",
-
   "expense_report.heading": "खर्च की रिपोर्ट",
   "expense_report.from": "से तारीख",
   "expense_report.to": "तक तारीख",
@@ -163,7 +155,6 @@
   "expense_report.error.dates_required": "दोनों तारीखें आवश्यक हैं",
   "expense_report.empty": "चयनित अवधि के लिए कोई डेटा नहीं मिला",
   "expense_report.total": "कुल खर्च:",
-
   "order.name": "नाम",
   "order.date": "तारीख",
   "order.address": "पता",
@@ -210,10 +201,30 @@
   "order.shirt.opt.baipatti_gaj_button": "बाईपट्टी गाज-बटन",
   "order.shirt.opt.fold_patti": "फोल्ड पट्टी",
   "order.shirt.opt.half_bai": "हाफ बाई",
+  "order.pant.type.hald rubber pant": "हाफ रबर पैंट",
+  "order.pant.type.jeans": "जींस",
+  "order.pant.type.cottan jeans": "कॉटन जींस",
+  "order.pant.type.chudidar faratu rabar": "चूड़ीदार फरतु रबर",
+  "order.shirt.type.bushirt": "बुशर्ट",
+  "order.shirt.type.short shirt": "शॉर्ट शर्ट",
+  "order.shirt.type.open kurto": "ओपन कुर्ता",
+  "order.shirt.type.kurto": "कुर्ता",
+  "order.shirt.type.zabhbho": "झब्बा",
+  "order.shirt.type.safari": "सफारी",
+  "order.shirt.type.sheravani": "शेरवानी",
+  "order.shirt.type.koti": "कोटी",
+  "order.shirt.type.suit": "सूट",
+  "order.shirt.type.blezer": "ब्लेज़र",
+  "order.shirt.type.indo western": "इंडो वेस्टर्न",
+  "order.shirt.type.highneck kurto": "हाईनेक कुर्ता",
 
+
+  "search.empty": "इस मानदंड से मेल खाने वाले कोई ऑर्डर नहीं मिले।",
+  "search.delete_confirm": "क्या आप वाकई इस ऑर्डर को हटाना चाहते हैं?",
+  
+  
   "placeholder.title": "जल्द आ रहा है",
   "placeholder.message": "यह अनुभाग विकास में है।",
-
   "footer.english": "English",
   "footer.hindi": "हिन्दी",
   "footer.gujarati": "ગુજરાતી"

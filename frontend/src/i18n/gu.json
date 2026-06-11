@@ -211,6 +211,27 @@
   "order.shirt.opt.fold_patti": "ફોલ્ડ પટ્ટી",
   "order.shirt.opt.half_bai": "હાફ બાય",
 
+  "order.pant.type.hald rubber pant": "હાફ રબર પેન્ટ",
+  "order.pant.type.jeans": "જીન્સ",
+  "order.pant.type.cottan jeans": "કોટન જીન્સ",
+  "order.pant.type.chudidar faratu rabar": "ચૂડીદાર ફરતું રબર",
+  "order.shirt.type.bushirt": "બુશર્ટ",
+  "order.shirt.type.short shirt": "શોર્ટ શર્ટ",
+  "order.shirt.type.open kurto": "ઓપન કુર્તો",
+  "order.shirt.type.kurto": "કુર્તો",
+  "order.shirt.type.zabhbho": "ઝભ્ભો",
+  "order.shirt.type.safari": "સફારી",
+  "order.shirt.type.sheravani": "શેરવાની",
+  "order.shirt.type.koti": "કોટી",
+  "order.shirt.type.suit": "સૂટ",
+  "order.shirt.type.blezer": "બ્લેઝર",
+  "order.shirt.type.indo western": "ઈન્ડો વેસ્ટર્ન",
+  "order.shirt.type.highneck kurto": "હાઈનેક કુર્તો",
+
+  "search.empty": "આ માપદંડ મુજબ કોઈ ઓર્ડર મળ્યા નથી.",
+  "search.delete_confirm": "શું તમે ખરેખર આ ઓર્ડર કાઢી નાખવા માંગો છો?",
+  
+
   "placeholder.title": "ટૂંક સમયમાં આવી રહ્યું છે",
   "placeholder.message": "આ વિભાગ વિકાસ હેઠળ છે.",
 

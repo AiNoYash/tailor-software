@@ -1,0 +1,99 @@
+.search-order-page {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.search-filters {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+    align-items: end;
+}
+
+.search-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+
+.search-actions button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.search-results-container {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 20px;
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+}
+
+.data-table th,
+.data-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.data-table th {
+    font-weight: 600;
+    color: var(--color-text);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.text-right { text-align: right !important; }
+.text-center { text-align: center !important; }
+.text-sm { font-size: 0.85rem; }
+.text-muted { opacity: 0.6; }
+.font-bold { font-weight: 700; }
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.btn-icon {
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    padding: 6px;
+    cursor: pointer;
+    color: var(--color-text);
+    transition: all 0.2s;
+}
+
+.btn-icon--edit:hover { border-color: #3b82f6; color: #3b82f6; }
+.btn-icon--delete:hover { border-color: #ef4444; color: #ef4444; }
+
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    opacity: 0.6;
+}
+
+@media (max-width: 640px) {
+    .search-order-page { padding: 14px; }
+    .search-filters { grid-template-columns: 1fr; }
+    .search-actions { flex-direction: column; }
+    .search-actions button { width: 100%; }
+}

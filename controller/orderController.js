@@ -72,7 +72,7 @@ const create = async (req, res) => {
             for (const item of items) {
                 await connection.execute(
                     `INSERT INTO order_items (order_id, item_type, quantity, details) VALUES (?, ?, ?, ?)`,
-                    [orderId, item.item_type, item.quantity || 1, JSON.stringify(item.details || {})]
+                    [orderId, item.item_type, item.quantity || 0, JSON.stringify(item.details || {})]
                 );
             }
         }
@@ -95,6 +95,7 @@ const create = async (req, res) => {
 /**
  * PUT /api/orders/:id
  * Updates an existing order and replaces its items.
+// ! If the old one had 2 items but new one has only one or none then it will remove all of the old items. WHICH IS INTENTED
  */
 const update = async (req, res) => {
     const connection = await db.getConnection();
@@ -127,7 +128,7 @@ const update = async (req, res) => {
             for (const item of items) {
                 await connection.execute(
                     `INSERT INTO order_items (order_id, item_type, quantity, details) VALUES (?, ?, ?, ?)`,
-                    [id, item.item_type, item.quantity || 1, JSON.stringify(item.details || {})]
+                    [id, item.item_type, item.quantity || 0, JSON.stringify(item.details || {})]
                 );
             }
         }
@@ -162,4 +163,46 @@ const remove = async (req, res) => {
     }
 };
 
-module.exports = { getById, create, update, remove };
+
+/**
+ * GET /api/orders
+ * Searches orders by bill_no, name, mobile, and date range.
+ */
+const search = async (req, res) => {
+    try {
+        const { bill_no, name, mobile, from_date, to_date } = req.query;
+        let query = `SELECT id, customer_name, mobile_no, order_date, delivery_date, total_amount, deposit_amount FROM orders WHERE 1=1`;
+        const params = [];
+
+        if (bill_no) {
+            query += ` AND id = ?`;
+            params.push(bill_no);
+        }
+        if (name) {
+            query += ` AND customer_name LIKE ?`;
+            params.push(`%${name}%`);
+        }
+        if (mobile) {
+            query += ` AND mobile_no LIKE ?`;
+            params.push(`%${mobile}%`);
+        }
+        if (from_date) {
+            query += ` AND order_date >= ?`;
+            params.push(from_date);
+        }
+        if (to_date) {
+            query += ` AND order_date <= ?`;
+            params.push(to_date);
+        }
+
+        query += ` ORDER BY order_date DESC, id DESC`;
+
+        const [rows] = await db.execute(query, params);
+        return res.status(200).json(rows);
+    } catch (error) {
+        console.error('search orders error:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+module.exports = { getById, create, update, remove, search };

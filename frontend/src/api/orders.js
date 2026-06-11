@@ -46,3 +46,20 @@ export const deleteOrder = async (id, token) => {
     if (!response.ok) throw new Error(data.message || 'Failed to delete order');
     return data;
 };
+
+
+export const searchOrders = async (params, token) => {
+    const query = new URLSearchParams();
+    if (params.billNo) query.append('bill_no', params.billNo);
+    if (params.name) query.append('name', params.name);
+    if (params.mobile) query.append('mobile', params.mobile);
+    if (params.fromDate) query.append('from_date', params.fromDate);
+    if (params.toDate) query.append('to_date', params.toDate);
+
+    const response = await fetch(`${API_BASE}/orders?${query.toString()}`, {
+        headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || 'Failed to search orders');
+    return data;
+};

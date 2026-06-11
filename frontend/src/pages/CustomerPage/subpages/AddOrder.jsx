@@ -26,14 +26,44 @@ const localDateStr = (dateStr) => {
     return `${yyyy}-${mm}-${dd}`;
 };
 
+/* ─── measurement layout maps ─── */
+const defaultPantMeasurements = {
+    lambai: '', gothan: '', fiting: '',
+    kamar: '', sit: '', sit_loose: '',
+    jang: '', jang_loose: '', jolo: '', moli: ''
+};
+
+// 4 rows x 6 columns
+const PANT_MEASUREMENT_GRID = [
+    ['lambai', 'kamar', 'sit', 'jang', 'jolo', 'moli'],
+    ['gothan', null, 'sit_loose', 'jang_loose', null, null],
+    ['fiting', null, null, null, null, null],
+    [null, null, null, null, null, null]
+];
+
+/* ─── measurement layout maps ─── */
+const defaultShirtMeasurements = {
+    lambai: '', chhati: '', chest: '', weist: '', hip: '',
+    shoulder: '', sleeve: '', sleeve_moli: '', collar: '',
+    kaf_ni_lambai: '', kaf_ni_saij: '', sleeve_fitting_1: '', sleeve_fitting_2: ''
+};
+
+// 4 rows x 7 columns
+const SHIRT_MEASUREMENT_GRID = [
+    ['lambai', 'chhati', 'shoulder', 'sleeve', 'collar', null, 'sleeve_fitting_1'],
+    [null, 'chest', null, 'sleeve_moli', 'kaf_ni_lambai', 'kaf_ni_saij', 'sleeve_fitting_2'],
+    [null, 'weist', null, null, null, null, null],
+    [null, 'hip', null, null, null, null, null]
+];
+
 /* ─── pattern images ─── */
 const PANT_PATTERNS = Array.from({ length: 17 }, (_, i) => i + 1);
 const SHIRT_PATTERNS = Array.from({ length: 3 }, (_, i) => i + 1);
 
 /* ─── dropdown options (placeholders — user will provide full lists) ─── */
-const PANT_TYPES = ['pant'];
+const PANT_TYPES = ['pant', 'hald rubber pant', 'jeans', 'cottan jeans', 'chudidar faratu rabar'];
 const PANT_SUB_TYPES = ['T.I 4 | I ° 6'];
-const SHIRT_TYPES = ['open'];
+const SHIRT_TYPES = ['open', 'bushirt', 'short shirt', 'open kurto', 'kurto', 'zabhbho', 'safari', 'sheravani', 'koti', 'suit', 'blezer', 'indo western', 'highneck kurto'];
 
 /* ─── checkbox option keys ─── */
 const PANT_OPTIONS = [
@@ -78,7 +108,7 @@ const defaultPant = {
     enabled: false,
     type: PANT_TYPES[0],
     sub_type: PANT_SUB_TYPES[0],
-    measurements: Array(14).fill(''),
+    measurements: { ...defaultPantMeasurements },
     pattern: '',
     options: Object.fromEntries(PANT_OPTIONS.map((k) => [k, false])),
     quantity: 1,
@@ -88,7 +118,7 @@ const defaultPant = {
 const defaultShirt = {
     enabled: false,
     type: SHIRT_TYPES[0],
-    measurements: Array(13).fill(''),
+    measurements: { ...defaultShirtMeasurements },
     pattern: '',
     options: Object.fromEntries(SHIRT_OPTIONS.map((k) => [k, false])),
     quantity: 1,
@@ -110,8 +140,8 @@ const AddOrder = () => {
     const [billNo, setBillNo] = useState('');
     const [isEditing, setIsEditing] = useState(false);
     const [customer, setCustomer] = useState({ ...defaultCustomer });
-    const [pant, setPant] = useState({ ...defaultPant, measurements: [...defaultPant.measurements], options: { ...defaultPant.options } });
-    const [shirt, setShirt] = useState({ ...defaultShirt, measurements: [...defaultShirt.measurements], options: { ...defaultShirt.options } });
+    const [pant, setPant] = useState({ ...defaultPant, measurements: { ...defaultPant.measurements }, options: { ...defaultPant.options } });
+    const [shirt, setShirt] = useState({ ...defaultShirt, measurements: { ...defaultShirt.measurements }, options: { ...defaultShirt.options } });
     const [bottom, setBottom] = useState({ ...defaultBottom });
     const [submitting, setSubmitting] = useState(false);
     const [formError, setFormError] = useState('');
@@ -137,8 +167,8 @@ const AddOrder = () => {
                 deposit_amount: order.deposit_amount || '',
             });
 
-            let newPant = { ...defaultPant, measurements: [...defaultPant.measurements], options: { ...defaultPant.options } };
-            let newShirt = { ...defaultShirt, measurements: [...defaultShirt.measurements], options: { ...defaultShirt.options } };
+            let newPant = { ...defaultPant, measurements: { ...defaultPant.measurements }, options: { ...defaultPant.options } };
+            let newShirt = { ...defaultShirt, measurements: { ...defaultShirt.measurements }, options: { ...defaultShirt.options } };
 
             for (const item of items) {
                 const det = item.details || {};
@@ -147,7 +177,7 @@ const AddOrder = () => {
                         enabled: true,
                         type: det.type || PANT_TYPES[0],
                         sub_type: det.sub_type || PANT_SUB_TYPES[0],
-                        measurements: det.measurements || Array(14).fill(''),
+                        measurements: det.measurements || { ...defaultPantMeasurements },
                         pattern: det.pattern || '',
                         options: { ...defaultPant.options, ...(det.options || {}) },
                         quantity: item.quantity || 1,
@@ -157,7 +187,7 @@ const AddOrder = () => {
                     newShirt = {
                         enabled: true,
                         type: det.type || SHIRT_TYPES[0],
-                        measurements: det.measurements || Array(13).fill(''),
+                        measurements: det.measurements || { ...defaultShirt.measurements },
                         pattern: det.pattern || '',
                         options: { ...defaultShirt.options, ...(det.options || {}) },
                         quantity: item.quantity || 1,
@@ -176,16 +206,18 @@ const AddOrder = () => {
     };
 
     /* ── measurement helpers ── */
-    const updatePantMeasurement = (idx, val) => {
-        const m = [...pant.measurements];
-        m[idx] = val;
-        setPant({ ...pant, measurements: m });
+    const updatePantMeasurement = (key, val) => {
+        setPant({
+            ...pant,
+            measurements: { ...pant.measurements, [key]: val }
+        });
     };
 
-    const updateShirtMeasurement = (idx, val) => {
-        const m = [...shirt.measurements];
-        m[idx] = val;
-        setShirt({ ...shirt, measurements: m });
+    const updateShirtMeasurement = (key, val) => {
+        setShirt({
+            ...shirt,
+            measurements: { ...shirt.measurements, [key]: val }
+        });
     };
 
     const togglePantOption = (key) => {
@@ -275,8 +307,8 @@ const AddOrder = () => {
         setBillNo('');
         setIsEditing(false);
         setCustomer({ ...defaultCustomer, order_date: todayISO() });
-        setPant({ ...defaultPant, measurements: [...defaultPant.measurements], options: { ...defaultPant.options } });
-        setShirt({ ...defaultShirt, measurements: [...defaultShirt.measurements], options: { ...defaultShirt.options } });
+        setPant({ ...defaultPant, measurements: { ...defaultPant.measurements }, options: { ...defaultPant.options } });
+        setShirt({ ...defaultShirt, measurements: { ...defaultShirt.measurements }, options: { ...defaultShirt.options } });
         setBottom({ ...defaultBottom, delivery_date: todayISO() });
         setFormError('');
     };
@@ -383,14 +415,30 @@ const AddOrder = () => {
                             </div>
 
                             <div className="order-item-body">
-                                {/* Measurement boxes — 14 boxes, CSS Grid positioned */}
+                                {/* Measurement boxes — 4x6 Grid */}
                                 <div className="order-measurements pant-measurements">
-                                    {[...Array(14)].map((_, i) => (
-                                        <input key={`p-${i}`} className={`meas-box p-box-${i}`}
-                                            type="text" inputMode="numeric"
-                                            value={pant.measurements[i] || ''}
-                                            onChange={(e) => updatePantMeasurement(i, e.target.value)} />
-                                    ))}
+                                    {PANT_MEASUREMENT_GRID.flat().map((key, index) => {
+                                        if (key) {
+                                            return (
+                                                <input
+                                                    key={key}
+                                                    className={`meas-box p-box-${key}`}
+                                                    type="text"
+                                                    value={pant.measurements[key] || ''}
+                                                    onChange={(e) => updatePantMeasurement(key, e.target.value)}
+                                                />
+                                            );
+                                        }
+
+                                        return (
+                                            <input
+                                                key={`empty-${index}`}
+                                                className="meas-box empty-meas-box"
+                                                style={{ visibility: 'hidden' }}
+                                                readOnly
+                                            />
+                                        );
+                                    })}
                                 </div>
 
                                 {/* Pattern selector */}
@@ -460,13 +508,30 @@ const AddOrder = () => {
 
                             <div className="order-item-body">
                                 {/* Measurement boxes — 13 boxes, CSS Grid positioned */}
+                                {/* Measurement boxes — 4x7 Grid */}
                                 <div className="order-measurements shirt-measurements">
-                                    {[...Array(13)].map((_, i) => (
-                                        <input key={`s-${i}`} className={`meas-box s-box-${i}`}
-                                            type="text" inputMode="numeric"
-                                            value={shirt.measurements[i] || ''}
-                                            onChange={(e) => updateShirtMeasurement(i, e.target.value)} />
-                                    ))}
+                                    {SHIRT_MEASUREMENT_GRID.flat().map((key, index) => {
+                                        if (key) {
+                                            return (
+                                                <input
+                                                    key={key}
+                                                    className={`meas-box s-box-${key}`}
+                                                    type="text"
+                                                    value={shirt.measurements[key] || ''}
+                                                    onChange={(e) => updateShirtMeasurement(key, e.target.value)}
+                                                />
+                                            );
+                                        }
+
+                                        return (
+                                            <input
+                                                key={`empty-s-${index}`}
+                                                className="meas-box empty-meas-box"
+                                                style={{ visibility: 'hidden' }}
+                                                readOnly
+                                            />
+                                        );
+                                    })}
                                 </div>
 
                                 {/* Pattern selector */}
