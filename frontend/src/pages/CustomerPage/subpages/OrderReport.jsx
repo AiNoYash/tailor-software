@@ -147,6 +147,7 @@ const OrderReport = () => {
                                 <span className="orpt-col orpt-col--shirts">{t('order_report.col.shirts', language)}</span>
                                 <span className="orpt-col orpt-col--deposit">{t('order_report.col.deposit', language)}</span>
                                 <span className="orpt-col orpt-col--total">{t('order_report.col.total', language)}</span>
+                                <span className="orpt-col orpt-col--sewing">{t('order_report.col.sewing', language)}</span>
                                 <span className="orpt-col orpt-col--remaining">{t('order_report.col.remaining', language)}</span>
                             </div>
 
@@ -175,6 +176,9 @@ const OrderReport = () => {
                                         <span className="orpt-col orpt-col--total" data-label={t('order_report.col.total', language)}>
                                             ₹{Number(row.total_amount).toLocaleString('en-IN')}
                                         </span>
+                                        <span className="orpt-col orpt-col--sewing" data-label={t('order_report.col.sewing', language)}>
+                                            ₹{Number(row.sewing_total).toLocaleString('en-IN')}
+                                        </span>
                                         <span className="orpt-col orpt-col--remaining" data-label={t('order_report.col.remaining', language)}>
                                             ₹{Number(row.remaining).toLocaleString('en-IN')}
                                         </span>
@@ -199,6 +203,9 @@ const OrderReport = () => {
                                     </span>
                                     <span className="orpt-col orpt-col--total">
                                         ₹{Number(reportTotals.total_amount).toLocaleString('en-IN')}
+                                    </span>
+                                    <span className="orpt-col orpt-col--sewing">
+                                        ₹{Number(reportTotals.sewing_total).toLocaleString('en-IN')}
                                     </span>
                                     <span className="orpt-col orpt-col--remaining">
                                         ₹{Number(reportTotals.remaining).toLocaleString('en-IN')}

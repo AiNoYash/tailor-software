@@ -348,7 +348,7 @@
 /* ---- Bottom Section (delivery, amounts) ---- */
 .order-bottom-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     gap: 16px;
     align-items: end;
 }
@@ -496,3 +496,11 @@
 .order-measurements::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.9);
 }
+
+
+
+
+
+
+
+

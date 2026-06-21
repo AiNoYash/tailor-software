@@ -97,3 +97,13 @@
     .search-actions { flex-direction: column; }
     .search-actions button { width: 100%; }
 }
+
+/* Styling for the Print Action Button */
+.btn-icon--print:hover { 
+    border-color: #10b981; 
+    color: #10b981; 
+}
+.btn-icon:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

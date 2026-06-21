@@ -10,7 +10,7 @@ const getById = async (req, res) => {
 
         const [orders] = await db.execute(
             `SELECT id, customer_name, mobile_no, address, user_name,
-                    order_date, delivery_date, total_amount, deposit_amount, created_at
+                    order_date, delivery_date, total_amount, sewing_total, deposit_amount, created_at
              FROM orders WHERE id = ?`,
             [id]
         );
@@ -48,7 +48,7 @@ const create = async (req, res) => {
         const {
             customer_name, mobile_no, address,
             order_date, delivery_date,
-            total_amount, deposit_amount,
+            total_amount, sewing_total, deposit_amount,
             items,
         } = req.body;
 
@@ -61,9 +61,9 @@ const create = async (req, res) => {
         await connection.beginTransaction();
 
         const [orderResult] = await connection.execute(
-            `INSERT INTO orders (customer_name, mobile_no, address, user_name, order_date, delivery_date, total_amount, deposit_amount)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-            [customer_name, mobile_no || '', address || '', user_name, order_date, delivery_date, total_amount || 0, deposit_amount || 0]
+            `INSERT INTO orders (customer_name, mobile_no, address, user_name, order_date, delivery_date, total_amount, sewing_total, deposit_amount)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [customer_name, mobile_no || '', address || '', user_name, order_date, delivery_date, total_amount || 0, sewing_total || 0, deposit_amount || 0]
         );
 
         const orderId = orderResult.insertId;
@@ -104,7 +104,7 @@ const update = async (req, res) => {
         const {
             customer_name, mobile_no, address,
             order_date, delivery_date,
-            total_amount, deposit_amount,
+            total_amount, sewing_total, deposit_amount,
             items,
         } = req.body;
 
@@ -117,9 +117,9 @@ const update = async (req, res) => {
 
         await connection.execute(
             `UPDATE orders SET customer_name = ?, mobile_no = ?, address = ?,
-             order_date = ?, delivery_date = ?, total_amount = ?, deposit_amount = ?
+             order_date = ?, delivery_date = ?, total_amount = ?, sewing_total = ?, deposit_amount = ?
              WHERE id = ?`,
-            [customer_name, mobile_no || '', address || '', order_date, delivery_date, total_amount || 0, deposit_amount || 0, id]
+            [customer_name, mobile_no || '', address || '', order_date, delivery_date, total_amount || 0, sewing_total || 0, deposit_amount || 0, id]
         );
 
         await connection.execute('DELETE FROM order_items WHERE order_id = ?', [id]);
@@ -171,7 +171,7 @@ const remove = async (req, res) => {
 const search = async (req, res) => {
     try {
         const { bill_no, name, mobile, from_date, to_date } = req.query;
-        let query = `SELECT id, customer_name, mobile_no, order_date, delivery_date, total_amount, deposit_amount FROM orders WHERE 1=1`;
+        let query = `SELECT id, customer_name, mobile_no, order_date, delivery_date, total_amount, sewing_total, deposit_amount FROM orders WHERE 1=1`;
         const params = [];
 
         if (bill_no) {
@@ -224,6 +224,7 @@ const report = async (req, res) => {
                 o.customer_name,
                 o.order_date,
                 o.total_amount,
+                o.sewing_total,
                 o.deposit_amount,
                 COALESCE(SUM(CASE WHEN oi.item_type = 'pant' THEN oi.quantity ELSE 0 END), 0) AS total_pants,
                 COALESCE(SUM(CASE WHEN oi.item_type = 'shirt' THEN oi.quantity ELSE 0 END), 0) AS total_shirts
@@ -236,19 +237,22 @@ const report = async (req, res) => {
         );
 
         // Compute remaining for each row and totals
-        let totalPants = 0, totalShirts = 0, totalAmount = 0, totalDeposit = 0;
+        let totalPants = 0, totalShirts = 0, totalAmount = 0, totalSewing = 0, totalDeposit = 0;
         const records = rows.map((r) => {
             const amt = Number(r.total_amount) || 0;
+            const sew = Number(r.sewing_total) || 0;
             const dep = Number(r.deposit_amount) || 0;
             totalPants += Number(r.total_pants);
             totalShirts += Number(r.total_shirts);
             totalAmount += amt;
+            totalSewing += sew;
             totalDeposit += dep;
             return {
                 ...r,
                 total_amount: amt,
+                sewing_total: sew,
                 deposit_amount: dep,
-                remaining: Math.max(0, amt - dep),
+                remaining: Math.max(0, amt + sew - dep),
             };
         });
 
@@ -258,8 +262,9 @@ const report = async (req, res) => {
                 total_pants: totalPants,
                 total_shirts: totalShirts,
                 total_amount: totalAmount,
+                sewing_total: totalSewing,
                 deposit_amount: totalDeposit,
-                remaining: Math.max(0, totalAmount - totalDeposit),
+                remaining: Math.max(0, totalAmount + totalSewing - totalDeposit),
             },
         });
     } catch (error) {
