@@ -6,11 +6,22 @@ const db = require('../config/db');
  */
 const getAll = async (req, res) => {
     try {
-        const [rows] = await db.execute(
-            `SELECT id, expense_date, amount, description, created_at
-             FROM expenses
-             ORDER BY expense_date DESC, created_at DESC`
-        );
+        const { month } = req.query; // Expecting YYYY-MM format
+        
+        let query = `
+            SELECT id, expense_date, amount, description, created_at
+            FROM expenses
+        `;
+        const queryParams = [];
+
+        if (month) {
+            query += ` WHERE DATE_FORMAT(expense_date, '%Y-%m') = ?`;
+            queryParams.push(month);
+        }
+
+        query += ` ORDER BY expense_date DESC, created_at DESC`;
+
+        const [rows] = await db.execute(query, queryParams);
         return res.status(200).json({ records: rows });
     } catch (error) {
         console.error('getAll expenses error:', error);

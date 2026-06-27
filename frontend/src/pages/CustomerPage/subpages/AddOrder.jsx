@@ -112,7 +112,7 @@ const AddOrder = () => {
     const [bottom, setBottom] = useState({ ...defaultBottom });
     const [submitting, setSubmitting] = useState(false);
     const [formError, setFormError] = useState('');
-    
+
     // Print Modal State
     const [showPrintPreview, setShowPrintPreview] = useState(false);
 
@@ -174,7 +174,7 @@ const AddOrder = () => {
             handleBillLookup(billParam);
             setSearchParams({}, { replace: true });
         }
-    }, []); 
+    }, []);
 
     /* ── measurement helpers ── */
     const updatePantMeasurement = (key, val) => setPant({ ...pant, measurements: { ...pant.measurements, [key]: val } });
@@ -221,7 +221,7 @@ const AddOrder = () => {
             }
             // Open print preview modal instead of standard alert
             setShowPrintPreview(true);
-            
+
         } catch (err) {
             setFormError(err.message);
         } finally {
@@ -239,7 +239,8 @@ const AddOrder = () => {
         setFormError('');
     };
 
-    const remaining = Math.max(0, (Number(bottom.total_amount) || 0) + (Number(bottom.sewing_total) || 0) - (Number(bottom.deposit_amount) || 0));
+    const sumTotal = (Number(bottom.total_amount) || 0) + (Number(bottom.sewing_total) || 0);
+    const remaining = Math.max(0, sumTotal - (Number(bottom.deposit_amount) || 0));
 
     /* ═══════════════════════════════════ RENDER ═══════════════════════════════════ */
     return (
@@ -278,7 +279,7 @@ const AddOrder = () => {
                             </div>
                             <div className="order-item-body">
                                 <div className="order-measurements pant-measurements">
-                                    {PANT_MEASUREMENT_GRID.flat().map((key, index) => key ? <input key={key} className={`meas-box p-box-${key}`} type="text" value={pant.measurements[key] || ''} onChange={(e) => updatePantMeasurement(key, e.target.value)} /> : <input key={`empty-${index}`} className="meas-box empty-meas-box" style={{ visibility: 'hidden' }} readOnly />)}
+                                    {PANT_MEASUREMENT_GRID.flat().map((key, index) => key ? <input key={key} className={`meas-box p-box-${key}`} title={key} type="text" value={pant.measurements[key] || ''} onChange={(e) => updatePantMeasurement(key, e.target.value)} /> : <input key={`empty-${index}`} className="meas-box empty-meas-box" style={{ visibility: 'hidden' }} readOnly />)}
                                 </div>
                                 <div className="order-pattern-selector">
                                     <div className="order-pattern-selected">{pant.pattern ? <img src={`/images/pant/${pant.pattern}.png`} alt="Pattern" /> : <div className="order-pattern-placeholder" />}</div>
@@ -307,7 +308,7 @@ const AddOrder = () => {
                             </div>
                             <div className="order-item-body">
                                 <div className="order-measurements shirt-measurements">
-                                    {SHIRT_MEASUREMENT_GRID.flat().map((key, index) => key ? <input key={key} className={`meas-box s-box-${key}`} type="text" value={shirt.measurements[key] || ''} onChange={(e) => updateShirtMeasurement(key, e.target.value)} /> : <input key={`empty-s-${index}`} className="meas-box empty-meas-box" style={{ visibility: 'hidden' }} readOnly />)}
+                                    {SHIRT_MEASUREMENT_GRID.flat().map((key, index) => key ? <input key={key} className={`meas-box s-box-${key}`} type="text" title={key} value={shirt.measurements[key] || ''} onChange={(e) => updateShirtMeasurement(key, e.target.value)} /> : <input key={`empty-s-${index}`} className="meas-box empty-meas-box" style={{ visibility: 'hidden' }} readOnly />)}
                                 </div>
                                 <div className="order-pattern-selector">
                                     <div className="order-pattern-selected">{shirt.pattern ? <img src={`/images/shirt/${shirt.pattern}.png`} alt="Pattern" /> : <div className="order-pattern-placeholder" />}</div>
@@ -331,8 +332,9 @@ const AddOrder = () => {
                 <section className="order-section order-bottom-section">
                     <div className="order-bottom-grid">
                         <div className="form-group"><label className="form-label">{t('order.delivery_date', language)}</label><input className="form-input" type="date" value={bottom.delivery_date} onChange={(e) => setBottom({ ...bottom, delivery_date: e.target.value })} disabled={submitting} /></div>
-                        <div className="form-group"><label className="form-label">{t('order.total_amount', language)}</label><input className="form-input" type="number" inputMode="numeric" min="0" step="0.01" value={bottom.total_amount} onChange={(e) => setBottom({ ...bottom, total_amount: e.target.value })} disabled={submitting} /></div>
+                        <div className="form-group"><label className="form-label">{t('order.clothes_total', language)}</label><input className="form-input" type="number" inputMode="numeric" min="0" step="0.01" value={bottom.total_amount} onChange={(e) => setBottom({ ...bottom, total_amount: e.target.value })} disabled={submitting} /></div>
                         <div className="form-group"><label className="form-label">{t('order.sewing_total', language)}</label><input className="form-input" type="number" inputMode="numeric" min="0" step="0.01" value={bottom.sewing_total} onChange={(e) => setBottom({ ...bottom, sewing_total: e.target.value })} disabled={submitting} /></div>
+                        <div className="form-group"><label className="form-label">{t('order.sum_total', language)}</label><div className="order-remaining-display">₹{sumTotal.toLocaleString('en-IN')}</div></div>
                         <div className="form-group"><label className="form-label">{t('order.deposit_amount', language)}</label><input className="form-input" type="number" inputMode="numeric" min="0" step="0.01" value={bottom.deposit_amount} onChange={(e) => setBottom({ ...bottom, deposit_amount: e.target.value })} disabled={submitting} /></div>
                         <div className="form-group"><label className="form-label">{t('order.remaining', language)}</label><div className="order-remaining-display">₹{remaining.toLocaleString('en-IN')}</div></div>
                     </div>

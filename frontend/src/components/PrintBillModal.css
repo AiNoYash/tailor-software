@@ -428,26 +428,47 @@
 /* ========================================= */
 /* PRINT MEDIA OVERRIDES                     */
 /* ========================================= */
+
+/* ? These media styles play an important part as well
+    ? The thing is if these overflow hidden andposition fixed and width/height as 
+    ? 100vw/h aren't applied then printer will see that everything else is supposed 
+    ? to be printed as well even tho all the other things are not visible
+*/
+
 @media print {
+
+    html,
+    body {
+        height: 100vh;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden;
+    }
+
     body * {
         visibility: hidden;
     }
 
     .print-modal-overlay {
-        position: absolute;
+        position: fixed;
         left: 0;
         top: 0;
+        width: 100vw;
+        height: 100vh;
         background: transparent;
         padding: 0;
         display: block;
+        margin: 0;
     }
 
     .print-modal-content {
         box-shadow: none;
         max-width: none;
         max-height: none;
-        overflow: visible;
+        overflow: hidden;
         background: white;
+        margin: 0;
+        padding: 0;
     }
 
     .hide-on-print {
@@ -467,8 +488,11 @@
         padding: 10mm;
         width: 297mm;
         height: 209mm;
+        max-width: 100vw;
+        max-height: 100vh;
         box-shadow: none;
         page-break-after: avoid;
+        page-break-inside: avoid;
     }
 
     /* Ensure B&W — strip any backgrounds */

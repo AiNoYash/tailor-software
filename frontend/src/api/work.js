@@ -1,11 +1,16 @@
 const API_BASE = '/api';
 
 /**
- * Fetch all work records.
+ * Fetch all work records (optionally filtered by month).
  * @param {string} token - JWT token
+ * @param {string} [month] - Format YYYY-MM
  */
-export const fetchWork = async (token) => {
-    const response = await fetch(`${API_BASE}/work`, {
+export const fetchWork = async (token, month = '') => {
+    let url = `${API_BASE}/work`;
+    if (month) {
+        url += `?month=${encodeURIComponent(month)}`;
+    }
+    const response = await fetch(url, {
         headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();

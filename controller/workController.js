@@ -6,13 +6,24 @@ const db = require('../config/db');
  */
 const getAll = async (req, res) => {
     try {
-        const [rows] = await db.execute(
-            `SELECT w.id, w.user_id, u.name AS worker_name, w.work_date, 
-                    w.pants_quantity, w.shirts_quantity, w.created_at
-             FROM work w
-             JOIN users u ON w.user_id = u.id
-             ORDER BY w.work_date DESC, w.created_at DESC`
-        );
+        const { month } = req.query; // Expecting YYYY-MM format
+        
+        let query = `
+            SELECT w.id, w.user_id, u.name AS worker_name, w.work_date, 
+                   w.pants_quantity, w.shirts_quantity, w.created_at
+            FROM work w
+            JOIN users u ON w.user_id = u.id
+        `;
+        const queryParams = [];
+
+        if (month) {
+            query += ` WHERE DATE_FORMAT(w.work_date, '%Y-%m') = ?`;
+            queryParams.push(month);
+        }
+
+        query += ` ORDER BY w.work_date DESC, w.created_at DESC`;
+
+        const [rows] = await db.execute(query, queryParams);
         return res.status(200).json({ records: rows });
     } catch (error) {
         console.error('getAll work error:', error);

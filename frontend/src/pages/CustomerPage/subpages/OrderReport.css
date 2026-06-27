@@ -50,7 +50,7 @@
 /* ---- Table Header ---- */
 .order-report-table-header {
     display: grid;
-    grid-template-columns: 0.5fr 1.2fr 0.8fr 0.4fr 0.4fr 0.7fr 0.7fr 0.7fr 0.7fr;
+    grid-template-columns: 0.5fr 1.2fr 0.8fr 0.4fr 0.4fr 0.7fr 0.7fr 0.7fr 0.7fr 0.7fr;
     gap: 8px;
     padding: 12px 16px;
     background-color: var(--color-surface);
@@ -71,7 +71,7 @@
 
 .order-report-row {
     display: grid;
-    grid-template-columns: 0.5fr 1.2fr 0.8fr 0.4fr 0.4fr 0.7fr 0.7fr 0.7fr 0.7fr;
+    grid-template-columns: 0.5fr 1.2fr 0.8fr 0.4fr 0.4fr 0.7fr 0.7fr 0.7fr 0.7fr 0.7fr;
     gap: 8px;
     align-items: center;
     padding: 13px 16px;
@@ -88,7 +88,7 @@
 /* ---- Totals Row ---- */
 .order-report-totals-row {
     display: grid;
-    grid-template-columns: 2.9fr 0.4fr 0.4fr 0.7fr 0.7fr 0.7fr 0.7fr;
+    grid-template-columns: 2.9fr 0.4fr 0.4fr 0.7fr 0.7fr 0.7fr 0.7fr 0.7fr;
     gap: 8px;
     align-items: center;
     padding: 14px 16px;
@@ -128,8 +128,10 @@
 }
 
 .orpt-col--deposit,
+.orpt-col--clothes,
 .orpt-col--total,
 .orpt-col--sewing,
+.orpt-col--sum_total,
 .orpt-col--remaining {
     font-size: 0.85rem;
     font-weight: 600;

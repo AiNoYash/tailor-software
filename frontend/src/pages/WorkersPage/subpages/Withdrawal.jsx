@@ -52,6 +52,14 @@ const Withdrawal = () => {
     const [formError, setFormError] = useState('');
     const [formSuccess, setFormSuccess] = useState('');
 
+    // Filter state
+    const [filterMonth, setFilterMonth] = useState(() => {
+        const now = new Date();
+        const yyyy = now.getFullYear();
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        return `${yyyy}-${mm}`;
+    });
+
     // ---- Data Loading ----
     const loadWorkers = useCallback(async () => {
         try {
@@ -66,19 +74,23 @@ const Withdrawal = () => {
 
     const loadRecords = useCallback(async () => {
         try {
-            const data = await fetchWithdrawals(token);
+            setRecordsLoading(true);
+            const data = await fetchWithdrawals(token, filterMonth);
             setRecords(data.records || []);
         } catch (err) {
             console.error('Failed to load withdrawal records:', err);
         } finally {
             setRecordsLoading(false);
         }
-    }, [token]);
+    }, [token, filterMonth]);
 
     useEffect(() => {
         loadWorkers();
+    }, [loadWorkers]);
+
+    useEffect(() => {
         loadRecords();
-    }, [loadWorkers, loadRecords]);
+    }, [loadRecords]);
 
     // ---- Form Handling ----
     const handleSubmit = async (e) => {
@@ -294,9 +306,18 @@ const Withdrawal = () => {
 
             {/* Withdrawal Records Table */}
             <section className="withdrawal-records-section" id="withdrawal-records-section">
-                <h2 className="section-heading">
-                    {t('withdrawal.list_heading', language)}
-                </h2>
+                <div className="section-heading-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                    <h2 className="section-heading" style={{ margin: 0 }}>
+                        {t('withdrawal.list_heading', language)}
+                    </h2>
+                    <input 
+                        type="month" 
+                        className="form-input" 
+                        value={filterMonth} 
+                        onChange={(e) => setFilterMonth(e.target.value)}
+                        style={{ width: 'auto', margin: 0, padding: '8px 12px' }}
+                    />
+                </div>
 
                 {recordsLoading ? (
                     <div className="withdrawal-loading">Loading...</div>

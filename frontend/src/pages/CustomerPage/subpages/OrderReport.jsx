@@ -145,9 +145,10 @@ const OrderReport = () => {
                                 <span className="orpt-col orpt-col--date">{t('order_report.col.date', language)}</span>
                                 <span className="orpt-col orpt-col--pants">{t('order_report.col.pants', language)}</span>
                                 <span className="orpt-col orpt-col--shirts">{t('order_report.col.shirts', language)}</span>
-                                <span className="orpt-col orpt-col--deposit">{t('order_report.col.deposit', language)}</span>
-                                <span className="orpt-col orpt-col--total">{t('order_report.col.total', language)}</span>
+                                <span className="orpt-col orpt-col--clothes">{t('order_report.col.clothes', language)}</span>
                                 <span className="orpt-col orpt-col--sewing">{t('order_report.col.sewing', language)}</span>
+                                <span className="orpt-col orpt-col--sum_total">{t('order_report.col.sum_total', language)}</span>
+                                <span className="orpt-col orpt-col--deposit">{t('order_report.col.deposit', language)}</span>
                                 <span className="orpt-col orpt-col--remaining">{t('order_report.col.remaining', language)}</span>
                             </div>
 
@@ -170,14 +171,17 @@ const OrderReport = () => {
                                         <span className="orpt-col orpt-col--shirts" data-label={t('order_report.col.shirts', language)}>
                                             {row.total_shirts}
                                         </span>
-                                        <span className="orpt-col orpt-col--deposit" data-label={t('order_report.col.deposit', language)}>
-                                            ₹{Number(row.deposit_amount).toLocaleString('en-IN')}
-                                        </span>
-                                        <span className="orpt-col orpt-col--total" data-label={t('order_report.col.total', language)}>
+                                        <span className="orpt-col orpt-col--clothes" data-label={t('order_report.col.clothes', language)}>
                                             ₹{Number(row.total_amount).toLocaleString('en-IN')}
                                         </span>
                                         <span className="orpt-col orpt-col--sewing" data-label={t('order_report.col.sewing', language)}>
                                             ₹{Number(row.sewing_total).toLocaleString('en-IN')}
+                                        </span>
+                                        <span className="orpt-col orpt-col--sum_total" data-label={t('order_report.col.sum_total', language)}>
+                                            ₹{(Number(row.total_amount) + Number(row.sewing_total)).toLocaleString('en-IN')}
+                                        </span>
+                                        <span className="orpt-col orpt-col--deposit" data-label={t('order_report.col.deposit', language)}>
+                                            ₹{Number(row.deposit_amount).toLocaleString('en-IN')}
                                         </span>
                                         <span className="orpt-col orpt-col--remaining" data-label={t('order_report.col.remaining', language)}>
                                             ₹{Number(row.remaining).toLocaleString('en-IN')}
@@ -198,14 +202,17 @@ const OrderReport = () => {
                                     <span className="orpt-col orpt-col--shirts">
                                         {reportTotals.total_shirts}
                                     </span>
-                                    <span className="orpt-col orpt-col--deposit">
-                                        ₹{Number(reportTotals.deposit_amount).toLocaleString('en-IN')}
-                                    </span>
-                                    <span className="orpt-col orpt-col--total">
+                                    <span className="orpt-col orpt-col--clothes">
                                         ₹{Number(reportTotals.total_amount).toLocaleString('en-IN')}
                                     </span>
                                     <span className="orpt-col orpt-col--sewing">
                                         ₹{Number(reportTotals.sewing_total).toLocaleString('en-IN')}
+                                    </span>
+                                    <span className="orpt-col orpt-col--sum_total">
+                                        ₹{(Number(reportTotals.total_amount) + Number(reportTotals.sewing_total)).toLocaleString('en-IN')}
+                                    </span>
+                                    <span className="orpt-col orpt-col--deposit">
+                                        ₹{Number(reportTotals.deposit_amount).toLocaleString('en-IN')}
                                     </span>
                                     <span className="orpt-col orpt-col--remaining">
                                         ₹{Number(reportTotals.remaining).toLocaleString('en-IN')}

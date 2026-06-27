@@ -1,11 +1,16 @@
 const API_BASE = '/api';
 
 /**
- * Fetch all withdrawal records.
+ * Fetch all withdrawal records (optionally filtered by month).
  * @param {string} token - JWT token
+ * @param {string} [month] - Format YYYY-MM
  */
-export const fetchWithdrawals = async (token) => {
-    const response = await fetch(`${API_BASE}/withdrawals`, {
+export const fetchWithdrawals = async (token, month = '') => {
+    let url = `${API_BASE}/withdrawals`;
+    if (month) {
+        url += `?month=${encodeURIComponent(month)}`;
+    }
+    const response = await fetch(url, {
         headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();

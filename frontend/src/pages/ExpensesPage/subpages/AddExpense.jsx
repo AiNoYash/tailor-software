@@ -47,16 +47,25 @@ const AddExpense = () => {
     const [formError, setFormError] = useState('');
     const [formSuccess, setFormSuccess] = useState('');
 
+    // Filter state
+    const [filterMonth, setFilterMonth] = useState(() => {
+        const now = new Date();
+        const yyyy = now.getFullYear();
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        return `${yyyy}-${mm}`;
+    });
+
     const loadRecords = useCallback(async () => {
         try {
-            const data = await fetchExpenses(token);
+            setRecordsLoading(true);
+            const data = await fetchExpenses(token, filterMonth);
             setRecords(data.records || []);
         } catch (err) {
             console.error('Failed to load expense records:', err);
         } finally {
             setRecordsLoading(false);
         }
-    }, [token]);
+    }, [token, filterMonth]);
 
     useEffect(() => {
         loadRecords();
@@ -268,9 +277,18 @@ const AddExpense = () => {
 
             {/* Expense Records Table */}
             <section className="add-expense-records-section" id="add-expense-records-section">
-                <h2 className="section-heading">
-                    {t('expense.list_heading', language)}
-                </h2>
+                <div className="section-heading-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                    <h2 className="section-heading" style={{ margin: 0 }}>
+                        {t('expense.list_heading', language)}
+                    </h2>
+                    <input 
+                        type="month" 
+                        className="form-input" 
+                        value={filterMonth} 
+                        onChange={(e) => setFilterMonth(e.target.value)}
+                        style={{ width: 'auto', margin: 0, padding: '8px 12px' }}
+                    />
+                </div>
 
                 {recordsLoading ? (
                     <div className="expense-loading">Loading...</div>

@@ -1,10 +1,15 @@
 const API_BASE = '/api';
 /**
- * Fetch all expense records.
+ * Fetch all expense records (optionally filtered by month).
  * @param {string} token - JWT token
+ * @param {string} [month] - Format YYYY-MM
  */
-export const fetchExpenses = async (token) => {
-    const response = await fetch(`${API_BASE}/expenses`, {
+export const fetchExpenses = async (token, month = '') => {
+    let url = `${API_BASE}/expenses`;
+    if (month) {
+        url += `?month=${encodeURIComponent(month)}`;
+    }
+    const response = await fetch(url, {
         headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
