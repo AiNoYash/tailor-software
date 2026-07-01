@@ -282,6 +282,15 @@
     object-fit: contain;
 }
 
+/* ---- Original Measurements (below pattern in shirt) ---- */
+.order-original-measurements {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+    margin-top: 4px;
+}
+
 /* ---- Checkboxes ---- */
 .order-checkboxes {
     grid-row: 1 / 2;
@@ -348,7 +357,7 @@
 /* ---- Bottom Section (delivery, amounts) ---- */
 .order-bottom-grid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(7, 1fr);
     gap: 16px;
     align-items: end;
 }

@@ -83,6 +83,7 @@
 }
 
 .btn-icon--edit:hover { border-color: #3b82f6; color: #3b82f6; }
+.btn-icon--copy:hover { border-color: #22c55e; color: #22c55e; }
 .btn-icon--delete:hover { border-color: #ef4444; color: #ef4444; }
 
 .empty-state {

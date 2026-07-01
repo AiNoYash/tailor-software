@@ -171,6 +171,7 @@
   "order.bill_no": "બિલ નંબર",
   "order.bill_no.placeholder": "નવું બિલ / શોધવા માટે એન્ટર દબાવો",
   "order.delivery_date": "ડિલિવરી તારીખ",
+  "order.early_offset": "વહેલા (દિવસ)",
   "order.clothes_total": "કાપડ ના ટોટલ",
   "order.sewing_total": "સિલાઈ ના ટોટલ",
   "order.sum_total": "કુલ",

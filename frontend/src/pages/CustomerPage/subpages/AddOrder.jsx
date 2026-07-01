@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { Search } from 'lucide-react';
 import PrintBillModal from '../../../components/PrintBillModal';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useLocation } from 'react-router-dom';
 import useAuthStore from '../../../store/useAuthStore';
 import useLanguageStore from '../../../store/useLanguageStore';
 import { t } from '../../../i18n';
@@ -47,7 +47,8 @@ const PANT_MEASUREMENT_GRID = [
 const defaultShirtMeasurements = {
     lambai: '', chhati: '', chest: '', weist: '', hip: '',
     shoulder: '', sleeve: '', sleeve_moli: '', collar: '',
-    kaf_ni_lambai: '', kaf_ni_saij: '', sleeve_fitting_1: '', sleeve_fitting_2: ''
+    kaf_ni_lambai: '', kaf_ni_saij: '', sleeve_fitting_1: '', sleeve_fitting_2: '',
+    original_chest: '', original_weist: '', original_hip: ''
 };
 
 // 4 rows x 7 columns
@@ -64,7 +65,7 @@ const SHIRT_PATTERNS = Array.from({ length: 3 }, (_, i) => i + 1);
 
 /* ─── dropdown options ─── */
 const PANT_TYPES = ['pant', 'hald rubber pant', 'jeans', 'cottan jeans', 'chudidar faratu rabar'];
-const PANT_SUB_TYPES = ['T.I 4 | I ° 6'];
+const PANT_SUB_TYPES = ['T.I 4 | I ° 6', 'T.I 6 | I ° 8'];
 const SHIRT_TYPES = ['open', 'bushirt', 'short shirt', 'open kurto', 'kurto', 'zabhbho', 'safari', 'sheravani', 'koti', 'suit', 'blezer', 'indo western', 'highneck kurto'];
 
 /* ─── checkbox option keys ─── */
@@ -103,6 +104,7 @@ const AddOrder = () => {
     const language = useLanguageStore((state) => state.language);
     const formRef = useRef(null);
     const [searchParams, setSearchParams] = useSearchParams();
+    const location = useLocation();
 
     const [billNo, setBillNo] = useState('');
     const [isEditing, setIsEditing] = useState(false);
@@ -110,6 +112,7 @@ const AddOrder = () => {
     const [pant, setPant] = useState({ ...defaultPant, measurements: { ...defaultPant.measurements }, options: { ...defaultPant.options } });
     const [shirt, setShirt] = useState({ ...defaultShirt, measurements: { ...defaultShirt.measurements }, options: { ...defaultShirt.options } });
     const [bottom, setBottom] = useState({ ...defaultBottom });
+    const [earlyOffset, setEarlyOffset] = useState(1);
     const [submitting, setSubmitting] = useState(false);
     const [formError, setFormError] = useState('');
 
@@ -176,6 +179,53 @@ const AddOrder = () => {
         }
     }, []);
 
+    /* ── pre-fill from copied order (location.state) ── */
+    useEffect(() => {
+        const copy = location.state?.copyData;
+        if (!copy) return;
+
+        // Clear the state so refreshing doesn't re-apply
+        window.history.replaceState({}, '');
+
+        setCustomer({
+            customer_name: copy.customer.customer_name || '',
+            mobile_no: copy.customer.mobile_no || '',
+            address: copy.customer.address || '',
+            order_date: todayISO(),
+        });
+        setBottom({
+            delivery_date: todayISO(),
+            total_amount: copy.bottom.total_amount || '',
+            sewing_total: copy.bottom.sewing_total || '',
+            deposit_amount: '',
+        });
+
+        let newPant = { ...defaultPant, measurements: { ...defaultPant.measurements }, options: { ...defaultPant.options } };
+        let newShirt = { ...defaultShirt, measurements: { ...defaultShirt.measurements }, options: { ...defaultShirt.options } };
+
+        for (const item of (copy.items || [])) {
+            const det = item.details || {};
+            if (item.item_type === 'pant') {
+                newPant = {
+                    enabled: true, type: det.type || PANT_TYPES[0], sub_type: det.sub_type || PANT_SUB_TYPES[0],
+                    measurements: det.measurements || { ...defaultPantMeasurements }, pattern: det.pattern || '',
+                    options: { ...defaultPant.options, ...(det.options || {}) }, quantity: item.quantity || 1, notes: det.notes || '',
+                };
+            } else if (item.item_type === 'shirt') {
+                newShirt = {
+                    enabled: true, type: det.type || SHIRT_TYPES[0], measurements: det.measurements || { ...defaultShirt.measurements },
+                    pattern: det.pattern || '', options: { ...defaultShirt.options, ...(det.options || {}) },
+                    quantity: item.quantity || 1, notes: det.notes || '',
+                };
+            }
+        }
+        setPant(newPant);
+        setShirt(newShirt);
+        setBillNo('');
+        setIsEditing(false);
+        setFormError('');
+    }, [location.state]);
+
     /* ── measurement helpers ── */
     const updatePantMeasurement = (key, val) => setPant({ ...pant, measurements: { ...pant.measurements, [key]: val } });
     const updateShirtMeasurement = (key, val) => setShirt({ ...shirt, measurements: { ...shirt.measurements, [key]: val } });
@@ -236,6 +286,7 @@ const AddOrder = () => {
         setPant({ ...defaultPant, measurements: { ...defaultPant.measurements }, options: { ...defaultPant.options } });
         setShirt({ ...defaultShirt, measurements: { ...defaultShirt.measurements }, options: { ...defaultShirt.options } });
         setBottom({ ...defaultBottom, delivery_date: todayISO() });
+        setEarlyOffset(1);
         setFormError('');
     };
 
@@ -316,6 +367,11 @@ const AddOrder = () => {
                                         {shirt.pattern && <button type="button" className="order-pattern-btn order-pattern-btn--clear" onClick={() => setShirt({ ...shirt, pattern: '' })}>✕</button>}
                                         {SHIRT_PATTERNS.map((n) => (<button key={n} type="button" className={`order-pattern-btn ${shirt.pattern === String(n) ? 'order-pattern-btn--active' : ''}`} onClick={() => setShirt({ ...shirt, pattern: String(n) })}><img src={`/images/shirt/${n}.png`} alt={`S${n}`} /></button>))}
                                     </div>
+                                    <div className="order-original-measurements">
+                                        <input className="meas-box" type="text" title="original_chest" value={shirt.measurements.original_chest || ''} onChange={(e) => updateShirtMeasurement('original_chest', e.target.value)} />
+                                        <input className="meas-box" type="text" title="original_weist" value={shirt.measurements.original_weist || ''} onChange={(e) => updateShirtMeasurement('original_weist', e.target.value)} />
+                                        <input className="meas-box" type="text" title="original_hip" value={shirt.measurements.original_hip || ''} onChange={(e) => updateShirtMeasurement('original_hip', e.target.value)} />
+                                    </div>
                                 </div>
                                 <div className="order-checkboxes">
                                     {SHIRT_OPTIONS.map((key) => (<label key={key} className="order-checkbox-label"><input type="checkbox" checked={shirt.options[key]} onChange={() => toggleShirtOption(key)} /><span>{t(`order.shirt.opt.${key}`, language)}</span></label>))}
@@ -332,6 +388,7 @@ const AddOrder = () => {
                 <section className="order-section order-bottom-section">
                     <div className="order-bottom-grid">
                         <div className="form-group"><label className="form-label">{t('order.delivery_date', language)}</label><input className="form-input" type="date" value={bottom.delivery_date} onChange={(e) => setBottom({ ...bottom, delivery_date: e.target.value })} disabled={submitting} /></div>
+                        <div className="form-group"><label className="form-label">{t('order.early_offset', language)}</label><input className="form-input" type="number" inputMode="numeric" min="0" step="1" value={earlyOffset} onChange={(e) => setEarlyOffset(Number(e.target.value) || 0)} disabled={submitting} /></div>
                         <div className="form-group"><label className="form-label">{t('order.clothes_total', language)}</label><input className="form-input" type="number" inputMode="numeric" min="0" step="0.01" value={bottom.total_amount} onChange={(e) => setBottom({ ...bottom, total_amount: e.target.value })} disabled={submitting} /></div>
                         <div className="form-group"><label className="form-label">{t('order.sewing_total', language)}</label><input className="form-input" type="number" inputMode="numeric" min="0" step="0.01" value={bottom.sewing_total} onChange={(e) => setBottom({ ...bottom, sewing_total: e.target.value })} disabled={submitting} /></div>
                         <div className="form-group"><label className="form-label">{t('order.sum_total', language)}</label><div className="order-remaining-display">₹{sumTotal.toLocaleString('en-IN')}</div></div>
@@ -356,6 +413,7 @@ const AddOrder = () => {
                     shirt={shirt}
                     bottom={bottom}
                     remaining={remaining}
+                    earlyOffset={earlyOffset}
                     language={language}
                     onClose={() => { setShowPrintPreview(false); handleClear(); }}
                     onCloseLabel="Close & New"

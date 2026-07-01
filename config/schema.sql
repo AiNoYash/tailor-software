@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS orders (
     order_date DATE NOT NULL,
     delivery_date DATE NOT NULL,
     total_amount DECIMAL(10, 2) DEFAULT 0.00,
+    sewing_total DECIMAL(10, 2) DEFAULT 0.00,
     deposit_amount DECIMAL(10, 2) DEFAULT 0.00,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

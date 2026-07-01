@@ -171,6 +171,7 @@
   "order.bill_no": "Bill No.",
   "order.bill_no.placeholder": "New Bill / Enter to edit",
   "order.delivery_date": "Delivery Date",
+  "order.early_offset": "Early Offset (Days)",
   "order.clothes_total": "Clothes Total",
   "order.sewing_total": "Sewing Total",
   "order.sum_total": "Total",

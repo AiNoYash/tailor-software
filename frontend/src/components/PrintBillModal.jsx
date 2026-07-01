@@ -1,4 +1,5 @@
 import { Printer, X } from 'lucide-react';
+import Sanscript from '@indic-transliteration/sanscript';
 import { t } from '../i18n';
 import './PrintBillModal.css';
 
@@ -36,9 +37,19 @@ const SHIRT_MEASUREMENT_GRID = [
  *   onCloseLabel   — optional label for close button (default "Close")
  *   language       — current app language (used for modal header only)
  */
-const PrintBillModal = ({ billNo, customer, pant, shirt, bottom, remaining, onClose, onCloseLabel, language }) => {
+const PrintBillModal = ({ billNo, customer, pant, shirt, bottom, remaining, earlyOffset = 1, onClose, onCloseLabel, language }) => {
     // All bill text is hardcoded Gujarati — use 'gu' for item type lookups
     const GU = 'gu';
+
+    // Transliterate English text to Gujarati for the printed bill
+    const toGuj = (text) => {
+        if (!text) return '';
+        try {
+            return Sanscript.t(text.toLowerCase(), 'itrans', 'gujarati');
+        } catch {
+            return text; // fallback to original if transliteration fails
+        }
+    };
 
     // Compute item rows for customer bill
     const itemRows = [];
@@ -58,6 +69,14 @@ const PrintBillModal = ({ billNo, customer, pant, shirt, bottom, remaining, onCl
     // Fill empty rows to make the table look complete (min 5 rows)
     const MIN_ROWS = 5;
     const emptyRowCount = Math.max(0, MIN_ROWS - itemRows.length);
+
+    // Compute tailor delivery date = delivery_date - earlyOffset days
+    const tailorDate = (() => {
+        if (!bottom.delivery_date) return '';
+        const d = new Date(bottom.delivery_date);
+        d.setDate(d.getDate() - (earlyOffset || 0));
+        return localDateStr(d);
+    })();
 
     const grandTotal = Number(bottom.total_amount || 0) + Number(bottom.sewing_total || 0);
 
@@ -86,12 +105,12 @@ const PrintBillModal = ({ billNo, customer, pant, shirt, bottom, remaining, onCl
                             <div className="tailor-section">
                                 <div className="tailor-header">
                                     <span>બિલ: <strong>{billNo}</strong></span>
-                                    <span>નામ: <strong>{customer.customer_name}</strong></span>
-                                    <span>તારીખ: <strong>{localDateStr(customer.order_date)}</strong></span>
+                                    <span>નામ: <strong>{toGuj(customer.customer_name)}</strong></span>
+                                    <span>તારીખ: <strong>{tailorDate}</strong></span>
                                 </div>
                                 <div className="tailor-subheader">
                                     <span>નંગ: <strong>{pant.quantity}</strong></span>
-                                    <span>પ્રકાર: <strong>{t(`order.pant.type.${pant.type}`, GU)} {pant.sub_type}</strong></span>
+                                    <span>પ્રકાર: <strong>{t(`order.pant.type.${pant.type}`, GU)} </strong></span>
                                 </div>
                                 <div className="tailor-body">
                                     <div className="tailor-grid-area">
@@ -105,9 +124,10 @@ const PrintBillModal = ({ billNo, customer, pant, shirt, bottom, remaining, onCl
                                         <div className="tailor-options">
                                             {Object.keys(pant.options).filter(k => pant.options[k]).map(k => t(`order.pant.opt.${k}`, GU)).join(', ')}
                                         </div>
-                                        {pant.notes && <div className="tailor-notes"><strong>વિગત:</strong> {pant.notes}</div>}
+                                        {pant.notes && <div className="tailor-notes"><strong>વિગત:</strong> {toGuj(pant.notes)}</div>}
                                     </div>
                                     {pant.pattern && <img className="tailor-pattern-img" src={`/images/pant/${pant.pattern}.png`} alt="" />}
+                                    <div className="sub-type"> {pant.sub_type}</div>
                                 </div>
                             </div>
                         )}
@@ -118,8 +138,8 @@ const PrintBillModal = ({ billNo, customer, pant, shirt, bottom, remaining, onCl
                             <div className="tailor-section">
                                 <div className="tailor-header">
                                     <span>બિલ: <strong>{billNo}</strong></span>
-                                    <span>નામ: <strong>{customer.customer_name}</strong></span>
-                                    <span>તારીખ: <strong>{localDateStr(customer.order_date)}</strong></span>
+                                    <span>નામ: <strong>{toGuj(customer.customer_name)}</strong></span>
+                                    <span>તારીખ: <strong>{tailorDate}</strong></span>
                                 </div>
                                 <div className="tailor-subheader">
                                     <span>નંગ: <strong>{shirt.quantity}</strong></span>
@@ -137,9 +157,16 @@ const PrintBillModal = ({ billNo, customer, pant, shirt, bottom, remaining, onCl
                                         <div className="tailor-options">
                                             {Object.keys(shirt.options).filter(k => shirt.options[k]).map(k => t(`order.shirt.opt.${k}`, GU)).join(', ')}
                                         </div>
-                                        {shirt.notes && <div className="tailor-notes"><strong>વિગત:</strong> {shirt.notes}</div>}
+                                        {shirt.notes && <div className="tailor-notes"><strong>વિગત:</strong> {toGuj(shirt.notes)}</div>}
                                     </div>
                                     {shirt.pattern && <img className="tailor-pattern-img" src={`/images/shirt/${shirt.pattern}.png`} alt="" />}
+                                    {(shirt.measurements.original_chest || shirt.measurements.original_weist || shirt.measurements.original_hip) && (
+                                        <div className="tailor-original-measurements">
+                                            <div className="print-cell filled">{shirt.measurements.original_chest || ''}</div>
+                                            <div className="print-cell filled">{shirt.measurements.original_weist || ''}</div>
+                                            <div className="print-cell filled">{shirt.measurements.original_hip || ''}</div>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         )}
@@ -151,17 +178,15 @@ const PrintBillModal = ({ billNo, customer, pant, shirt, bottom, remaining, onCl
                         {/* Religious Header */}
                         <div className="bill-religious-header">
                             <div className="bill-religious-line1">|| શ્રી ગણેશાય નમ: ||</div>
-                            <div className="bill-religious-line2">|| શ્રી ૧ા ||</div>
                         </div>
 
                         {/* Shop Branding */}
                         <div className="bill-shop-header">
-                            {/* <img src="/logo-icon-on-bill.png" alt="Logo" className="bill-shop-logo-icon" /> */}
-                            <img src="/logo-name.png" alt="Raj Selection" className="bill-shop-logo-name" />
+                            <img src="/icon-logo.png" alt="Logo" className="bill-shop-logo-icon" />
+                            <img src="/named-logo.png" alt="Raj Selection" className="bill-shop-logo-name" />
                         </div>
 
-                        <div className="contact-1"><strong>હિતેશભાઈ મકવાણા</strong> <br /> 99792 27103</div>
-                        <div className="contact-2"><strong>રાજ મકવાણા</strong><br /> 93283 59732</div>
+                        <strong className="contact-2">93283 59732</strong>
                         {/* Shop Address */}
                         <div className="bill-shop-address">
                             શોપ નં. ૩, અક્ષય કોમ્પ્લેક્સ, પાર્વતી નગર-૨, BRTS સ્ટેશન સામે, બાપા સીતારામ ચોક, કતારગામ, સુરત
@@ -171,11 +196,11 @@ const PrintBillModal = ({ billNo, customer, pant, shirt, bottom, remaining, onCl
                         <div className="bill-customer-info">
                             <div className="bill-info-field">
                                 <span className="bill-info-label">નામ :</span>
-                                <span className="bill-info-value">{customer.customer_name}</span>
+                                <span className="bill-info-value"><strong>{toGuj(customer.customer_name)}</strong></span>
                             </div>
                             <div className="bill-info-field">
                                 <span className="bill-info-label">બિલ નં. :</span>
-                                <span className="bill-info-value">{billNo}</span>
+                                <span className="bill-info-value"><strong>{billNo}</strong></span>
                             </div>
                             <div className="bill-info-field">
                                 <span className="bill-info-label">મોબાઈલ :</span>
@@ -187,7 +212,7 @@ const PrintBillModal = ({ billNo, customer, pant, shirt, bottom, remaining, onCl
                             </div>
                             <div className="bill-info-field">
                                 <span className="bill-info-label">સરનામું :</span>
-                                <span className="bill-info-value">{customer.address}</span>
+                                <span className="bill-info-value">{toGuj(customer.address)}</span>
                             </div>
                             <div className="bill-info-field">
                                 <span className="bill-info-label">ડિલિવરી :</span>
@@ -199,26 +224,24 @@ const PrintBillModal = ({ billNo, customer, pant, shirt, bottom, remaining, onCl
                         <table className="bill-items-table">
                             <thead>
                                 <tr>
-                                    <th style={{ width: '40px' }}>નં.</th>
                                     <th>વિગત</th>
                                     <th style={{ width: '50px' }}>નંગ</th>
+                                    <th style={{ width: '50px' }}>રકમ</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {itemRows.map((item, idx) => (
                                     <tr key={idx}>
-                                        <td>{idx + 1}</td>
                                         <td>{item.name}</td>
                                         <td>{item.qty}</td>
+                                        <td></td>
                                     </tr>
                                 ))}
-                                {Array.from({ length: emptyRowCount }).map((_, idx) => (
-                                    <tr key={`empty-${idx}`} className="empty-row">
+                                    <tr className="empty-row">
                                         <td>&nbsp;</td>
                                         <td>&nbsp;</td>
                                         <td>&nbsp;</td>
-                                    </tr>
-                                ))}
+                                    </tr>                                
                             </tbody>
                         </table>
 
@@ -244,6 +267,21 @@ const PrintBillModal = ({ billNo, customer, pant, shirt, bottom, remaining, onCl
                                 <span className="bill-fin-label">બાકી :</span>
                                 <span className="bill-fin-value">₹{remaining.toLocaleString('en-IN')}</span>
                             </div>
+                        </div>
+
+                        <div className="notice">
+                            <img src="/notice-border.png" alt="border" className="border" />
+                            <div className="heading">સૂચના</div>
+                            <ol >
+                                <li>કાપડની રકમ રોકડી લેવામાં આવશે.</li>
+                                <li>કપડાની ડીલીવરી તારીખથી ૩૦ દિવસ સુધીમાં લઈ જવા ત્યારબાદ અમો જવાબદાર નથી.</li>
+                                <li>સંજોગો વસાત કપડાની ડીલીવરી સમયસર ન થઈ શકે તો ગ્રાહકે તકરાર કરવી નહી.</li>
+                                <li>ડીલીવરી માટે આ મેમો સાથે લાવવો જરૂરી છે.</li>
+                                <li>કાપડમાં આવેલી નુકસાની માટે અમો જવાબદાર નથી.</li>
+                                <li>ઉધાર માંગી શરમાવશો નહી.</li>
+                                <li>પ્રેસ કરવાથી કાપડ ચઢી જાય તો અમો જવાબદાર નથી.</li>
+                            </ol>
+                            <img src="/named-logo-stacked.png" alt="" className="logo" />
                         </div>
 
                     </div>

@@ -162,6 +162,7 @@
   "order.bill_no": "बिल नंबर",
   "order.bill_no.placeholder": "नया बिल / खोजने के लिए एंटर दबाएं",
   "order.delivery_date": "डिलीवरी की तारीख",
+  "order.early_offset": "पहले (दिन)",
   "order.clothes_total": "कपड़े का टोटल",
   "order.sewing_total": "सिलाई का टोटल",
   "order.sum_total": "कुल",

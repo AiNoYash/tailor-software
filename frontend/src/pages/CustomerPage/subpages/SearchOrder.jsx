@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, Trash2, Edit, Printer, X } from 'lucide-react';
+import { Search, Trash2, Edit, Printer, X, Copy } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import PrintBillModal from '../../../components/PrintBillModal';
 import useAuthStore from '../../../store/useAuthStore';
@@ -68,6 +68,33 @@ const SearchOrder = () => {
 
     const handleEdit = (id) => {
         navigate(`/customer?bill=${id}`);
+    };
+
+    const handleCopy = async (id) => {
+        try {
+            const data = await fetchOrder(id, token);
+            const order = data.order;
+            const items = data.items || [];
+            navigate('/customer', {
+                state: {
+                    copyData: {
+                        customer: {
+                            customer_name: order.customer_name || '',
+                            mobile_no: order.mobile_no || '',
+                            address: order.address || '',
+                        },
+                        bottom: {
+                            total_amount: order.total_amount || '',
+                            sewing_total: order.sewing_total || '',
+                            deposit_amount: order.deposit_amount || '',
+                        },
+                        items,
+                    },
+                },
+            });
+        } catch (err) {
+            alert('Failed to copy order: ' + err.message);
+        }
     };
 
     const handlePrint = async (id) => {
@@ -206,6 +233,9 @@ const SearchOrder = () => {
                                                 <button className="btn-icon btn-icon--edit" onClick={() => handleEdit(order.id)} title="Edit">
                                                     <Edit size={16} />
                                                 </button>
+                                                <button className="btn-icon btn-icon--copy" onClick={() => handleCopy(order.id)} title="Copy as New">
+                                                    <Copy size={16} />
+                                                </button>
                                                 <button className="btn-icon btn-icon--delete" onClick={() => handleDelete(order.id)} title="Delete">
                                                     <Trash2 size={16} />
                                                 </button>
@@ -230,6 +260,7 @@ const SearchOrder = () => {
                     shirt={printData.shirt}
                     bottom={printData.bottom}
                     remaining={printData.remaining}
+                    earlyOffset={1}
                     language={language}
                     onClose={() => setPrintData(null)}
                     onCloseLabel="Close"
