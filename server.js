@@ -1,5 +1,5 @@
 const dotenv = require('dotenv');
-dotenv.config({ override: true }); // ? Give more priority to .env variables rather than those who exists by default
+dotenv.config(); // ! Do not add override to true as it will be problematic in production
 
 const express = require('express');
 const cors = require('cors');
@@ -32,12 +32,12 @@ app.use('/api/expenses', expenseRoutes);
 app.use('/api/orders', orderRoutes);
 
 // Basic health check route
-app.get('/lol', (req, res) => {
+app.get('/test', (req, res) => {
     res.status(200).json({ message: 'API is running cleanly' });
 });
 
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 const startServer = async () => {
     try {
