@@ -4,6 +4,7 @@ dotenv.config(); // ! Do not add override to true as it will be problematic in p
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const path = require("path");
 
 const initSchema = require('./config/initSchema');
 
@@ -14,6 +15,7 @@ const withdrawalRoutes = require('./routes/withdrawalRoutes');
 const reportRoutes = require('./routes/reportRoutes');
 const expenseRoutes = require('./routes/expenseRoutes');
 const orderRoutes = require('./routes/orderRoutes');
+
 
 const app = express();
 
@@ -34,6 +36,13 @@ app.use('/api/orders', orderRoutes);
 // Basic health check route
 app.get('/test', (req, res) => {
     res.status(200).json({ message: 'API is running cleanly' });
+});
+
+app.use(express.static(path.join(__dirname, 'frontend/dist')));
+
+// Use the RegExp /.*/ instead of the string '*'
+app.get(/.*/, (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend/dist', 'index.html'));
 });
 
 
