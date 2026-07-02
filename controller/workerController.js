@@ -139,10 +139,18 @@ const remove = async (req, res) => {
     try {
         const { id } = req.params;
 
+        if (rows[0].role === 'admin') {
+            return res.status(403).json({ message: 'Cannot delete admin accounts' });
+        }
+
         // Check if user exists
         const [rows] = await db.execute('SELECT id FROM users WHERE id = ?', [id]);
         if (rows.length === 0) {
             return res.status(404).json({ message: 'User not found' });
+        }
+
+        if (rows[0].role === 'admin') {
+            return res.status(403).json({ message: 'Cannot delete admin accounts' });
         }
 
         await db.execute('DELETE FROM users WHERE id = ?', [id]);

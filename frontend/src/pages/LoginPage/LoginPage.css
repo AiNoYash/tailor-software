@@ -124,11 +124,11 @@
 }
 
 .form-input::placeholder {
-    color: rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.55);
 }
 
 .form-input:focus {
-    border-color: rgba(255, 255, 255, 0.35);
+    border-color: rgba(255, 255, 255, 0.65);
 }
 
 .form-input:disabled {

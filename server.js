@@ -20,7 +20,7 @@ const orderRoutes = require('./routes/orderRoutes');
 const app = express();
 
 // Middleware
-app.use(cors());
+// app.use(cors()); // ! we don't need cors at all since out frontend and backend are both on same origin
 app.use(express.json());
 app.use(morgan('dev'));
 
@@ -34,7 +34,7 @@ app.use('/api/expenses', expenseRoutes);
 app.use('/api/orders', orderRoutes);
 
 // Basic health check route
-app.get('/test', (req, res) => {
+app.get('/health', (req, res) => {
     res.status(200).json({ message: 'API is running cleanly' });
 });
 

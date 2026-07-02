@@ -79,11 +79,11 @@
 }
 
 .form-input::placeholder {
-    color: rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.55);
 }
 
 .form-input:focus {
-    border-color: rgba(255, 255, 255, 0.35);
+    border-color: rgba(255, 255, 255, 0.65);
 }
 
 .form-input:disabled {
@@ -168,15 +168,15 @@
 }
 
 .worker-card:hover {
-    border-color: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.4);
 }
 
 .worker-card--admin {
-    border-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
 }
 
 .worker-card--editing {
-    border-color: rgba(255, 255, 255, 0.5);
+    border-color: rgba(255, 255, 255, 0.75);
 }
 
 /* View mode */
@@ -246,7 +246,7 @@
 
 .worker-card__badge--admin {
     color: var(--color-text);
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 .worker-card__actions {
@@ -285,11 +285,11 @@
 .btn-icon--cancel-edit {
     width: 32px;
     height: 32px;
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(255, 255, 255, 0.12);
 }
 
 .btn-icon--cancel-edit:hover {
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(255, 255, 255, 0.25);
 }
 
 .btn-icon:disabled {

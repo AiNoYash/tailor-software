@@ -21,7 +21,7 @@
 }
 
 .add-expense-form-section--editing {
-    border-color: rgba(255, 255, 255, 0.4);
+    border-color: rgba(255, 255, 255, 0.65);
 }
 
 .add-expense-form {
@@ -81,11 +81,11 @@
 }
 
 .expense-record:hover {
-    border-color: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.4);
 }
 
 .expense-record--editing {
-    border-color: rgba(255, 255, 255, 0.5);
+    border-color: rgba(255, 255, 255, 0.75);
 }
 
 /* Columns */

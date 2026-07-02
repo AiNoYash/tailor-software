@@ -82,7 +82,7 @@
 }
 
 .report-row:hover {
-    background-color: rgba(255, 255, 255, 0.03);
+    background-color: rgba(255, 255, 255, 0.08);
 }
 
 /* ---- Totals Row ---- */
@@ -92,9 +92,9 @@
     gap: 8px;
     align-items: center;
     padding: 14px 16px;
-    background-color: rgba(255, 255, 255, 0.06);
+    background-color: rgba(255, 255, 255, 0.14);
     border: 1px solid var(--color-border);
-    border-top: 2px solid rgba(255, 255, 255, 0.2);
+    border-top: 2px solid rgba(255, 255, 255, 0.45);
     border-radius: 0 0 8px 8px;
     font-weight: 700;
 }
