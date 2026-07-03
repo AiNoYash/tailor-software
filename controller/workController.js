@@ -17,8 +17,8 @@ const getAll = async (req, res) => {
         const queryParams = [];
 
         if (month) {
-            query += ` WHERE DATE_FORMAT(w.work_date, '%Y-%m') = ?`;
-            queryParams.push(month);
+            query += ` WHERE w.work_date >= CONCAT(?, '-01') AND w.work_date < DATE_ADD(CONCAT(?, '-01'), INTERVAL 1 MONTH)`;
+            queryParams.push(month, month);
         }
 
         query += ` ORDER BY w.work_date DESC, w.created_at DESC`;

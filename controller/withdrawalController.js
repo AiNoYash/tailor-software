@@ -17,8 +17,8 @@ const getAll = async (req, res) => {
         const queryParams = [];
 
         if (month) {
-            query += ` WHERE DATE_FORMAT(w.withdrawal_date, '%Y-%m') = ?`;
-            queryParams.push(month);
+            query += ` WHERE w.withdrawal_date >= CONCAT(?, '-01') AND w.withdrawal_date < DATE_ADD(CONCAT(?, '-01'), INTERVAL 1 MONTH)`;
+            queryParams.push(month, month);
         }
 
         query += ` ORDER BY w.withdrawal_date DESC, w.created_at DESC`;
