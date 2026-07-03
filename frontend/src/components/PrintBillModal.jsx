@@ -106,11 +106,12 @@ const PrintBillModal = ({ billNo, customer, pant, shirt, bottom, remaining, earl
                                 <div className="tailor-header">
                                     <span>બિલ: <strong>{billNo}</strong></span>
                                     <span>નામ: <strong>{toGuj(customer.customer_name)}</strong></span>
-                                    <span>તારીખ: <strong>{tailorDate}</strong></span>
+                                    <span>ડિલિવરી: <strong>{tailorDate}</strong></span>
                                 </div>
                                 <div className="tailor-subheader">
                                     <span>નંગ: <strong>{pant.quantity}</strong></span>
                                     <span>પ્રકાર: <strong>{t(`order.pant.type.${pant.type}`, GU)} </strong></span>
+                                    <span style={{ visibility: 'hidden' }}></span>
                                 </div>
                                 <div className="tailor-body">
                                     <div className="tailor-grid-area">
@@ -139,11 +140,12 @@ const PrintBillModal = ({ billNo, customer, pant, shirt, bottom, remaining, earl
                                 <div className="tailor-header">
                                     <span>બિલ: <strong>{billNo}</strong></span>
                                     <span>નામ: <strong>{toGuj(customer.customer_name)}</strong></span>
-                                    <span>તારીખ: <strong>{tailorDate}</strong></span>
+                                    <span>ડિલિવરી: <strong>{tailorDate}</strong></span>
                                 </div>
                                 <div className="tailor-subheader">
                                     <span>નંગ: <strong>{shirt.quantity}</strong></span>
                                     <span>પ્રકાર: <strong>{t(`order.shirt.type.${shirt.type}`, GU)}</strong></span>
+                                    <span style={{ visibility: 'hidden' }}></span>
                                 </div>
                                 <div className="tailor-body">
                                     <div className="tailor-grid-area">
@@ -237,11 +239,11 @@ const PrintBillModal = ({ billNo, customer, pant, shirt, bottom, remaining, earl
                                         <td></td>
                                     </tr>
                                 ))}
-                                    <tr className="empty-row">
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                    </tr>                                
+                                <tr className="empty-row">
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
                             </tbody>
                         </table>
 
