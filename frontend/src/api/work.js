@@ -1,4 +1,5 @@
 const API_BASE = '/api';
+import authFetch from './authFetch';
 
 /**
  * Fetch all work records (optionally filtered by month).
@@ -10,7 +11,7 @@ export const fetchWork = async (token, month = '') => {
     if (month) {
         url += `?month=${encodeURIComponent(month)}`;
     }
-    const response = await fetch(url, {
+    const response = await authFetch(url, {
         headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
@@ -24,7 +25,7 @@ export const fetchWork = async (token, month = '') => {
  * @param {string} token - JWT token
  */
 export const createWork = async (workData, token) => {
-    const response = await fetch(`${API_BASE}/work`, {
+    const response = await authFetch(`${API_BASE}/work`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -44,7 +45,7 @@ export const createWork = async (workData, token) => {
  * @param {string} token - JWT token
  */
 export const updateWork = async (id, updates, token) => {
-    const response = await fetch(`${API_BASE}/work/${id}`, {
+    const response = await authFetch(`${API_BASE}/work/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -63,7 +64,7 @@ export const updateWork = async (id, updates, token) => {
  * @param {string} token - JWT token
  */
 export const deleteWork = async (id, token) => {
-    const response = await fetch(`${API_BASE}/work/${id}`, {
+    const response = await authFetch(`${API_BASE}/work/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
     });

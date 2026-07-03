@@ -1,4 +1,5 @@
 const API_BASE = '/api';
+import authFetch from './authFetch';
 
 /**
  * Fetch all withdrawal records (optionally filtered by month).
@@ -10,7 +11,7 @@ export const fetchWithdrawals = async (token, month = '') => {
     if (month) {
         url += `?month=${encodeURIComponent(month)}`;
     }
-    const response = await fetch(url, {
+    const response = await authFetch(url, {
         headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
@@ -24,7 +25,7 @@ export const fetchWithdrawals = async (token, month = '') => {
  * @param {string} token - JWT token
  */
 export const createWithdrawal = async (withdrawalData, token) => {
-    const response = await fetch(`${API_BASE}/withdrawals`, {
+    const response = await authFetch(`${API_BASE}/withdrawals`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -44,7 +45,7 @@ export const createWithdrawal = async (withdrawalData, token) => {
  * @param {string} token - JWT token
  */
 export const updateWithdrawal = async (id, updates, token) => {
-    const response = await fetch(`${API_BASE}/withdrawals/${id}`, {
+    const response = await authFetch(`${API_BASE}/withdrawals/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -63,7 +64,7 @@ export const updateWithdrawal = async (id, updates, token) => {
  * @param {string} token - JWT token
  */
 export const deleteWithdrawal = async (id, token) => {
-    const response = await fetch(`${API_BASE}/withdrawals/${id}`, {
+    const response = await authFetch(`${API_BASE}/withdrawals/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
     });

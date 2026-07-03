@@ -23,7 +23,15 @@ const useAuthStore = create(
                 }),
         }),
         {
-            name: 'auth-storage', // localStorage key
+            name: 'auth-storage',
+            storage: {
+                getItem: (name) => {
+                    const value = sessionStorage.getItem(name);
+                    return value ?? null;
+                },
+                setItem: (name, value) => sessionStorage.setItem(name, value),
+                removeItem: (name) => sessionStorage.removeItem(name),
+            },
         }
     )
 );

@@ -1,7 +1,8 @@
 const API_BASE = '/api';
+import authFetch from './authFetch';
 
 export const fetchOrder = async (id, token) => {
-    const response = await fetch(`${API_BASE}/orders/${id}`, {
+    const response = await authFetch(`${API_BASE}/orders/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
@@ -10,7 +11,7 @@ export const fetchOrder = async (id, token) => {
 };
 
 export const createOrder = async (orderData, token) => {
-    const response = await fetch(`${API_BASE}/orders`, {
+    const response = await authFetch(`${API_BASE}/orders`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -24,7 +25,7 @@ export const createOrder = async (orderData, token) => {
 };
 
 export const updateOrder = async (id, orderData, token) => {
-    const response = await fetch(`${API_BASE}/orders/${id}`, {
+    const response = await authFetch(`${API_BASE}/orders/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -38,7 +39,7 @@ export const updateOrder = async (id, orderData, token) => {
 };
 
 export const deleteOrder = async (id, token) => {
-    const response = await fetch(`${API_BASE}/orders/${id}`, {
+    const response = await authFetch(`${API_BASE}/orders/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
     });
@@ -56,7 +57,7 @@ export const searchOrders = async (params, token) => {
     if (params.fromDate) query.append('from_date', params.fromDate);
     if (params.toDate) query.append('to_date', params.toDate);
 
-    const response = await fetch(`${API_BASE}/orders?${query.toString()}`, {
+    const response = await authFetch(`${API_BASE}/orders?${query.toString()}`, {
         headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
@@ -69,7 +70,7 @@ export const fetchOrderReport = async (params, token) => {
     if (params.from_date) query.append('from_date', params.from_date);
     if (params.to_date) query.append('to_date', params.to_date);
 
-    const response = await fetch(`${API_BASE}/orders/report?${query.toString()}`, {
+    const response = await authFetch(`${API_BASE}/orders/report?${query.toString()}`, {
         headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();

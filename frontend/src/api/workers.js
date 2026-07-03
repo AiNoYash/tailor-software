@@ -1,11 +1,12 @@
 const API_BASE = '/api';
+import authFetch from './authFetch';
 
 /**
  * Fetch all users (admin + workers).
  * @param {string} token - JWT token
  */
 export const fetchWorkers = async (token) => {
-    const response = await fetch(`${API_BASE}/workers`, {
+    const response = await authFetch(`${API_BASE}/workers`, {
         headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -24,7 +25,7 @@ export const fetchWorkers = async (token) => {
  * @param {string} token - JWT token
  */
 export const createWorker = async (workerData, token) => {
-    const response = await fetch(`${API_BASE}/workers`, {
+    const response = await authFetch(`${API_BASE}/workers`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -49,7 +50,7 @@ export const createWorker = async (workerData, token) => {
  * @param {string} token - JWT token
  */
 export const updateWorker = async (id, updates, token) => {
-    const response = await fetch(`${API_BASE}/workers/${id}`, {
+    const response = await authFetch(`${API_BASE}/workers/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -73,7 +74,7 @@ export const updateWorker = async (id, updates, token) => {
  * @param {string} token - JWT token
  */
 export const deleteWorker = async (id, token) => {
-    const response = await fetch(`${API_BASE}/workers/${id}`, {
+    const response = await authFetch(`${API_BASE}/workers/${id}`, {
         method: 'DELETE',
         headers: {
             Authorization: `Bearer ${token}`,

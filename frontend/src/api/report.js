@@ -1,4 +1,5 @@
 const API_BASE = '/api';
+import authFetch from './authFetch';
 
 /**
  * Fetch report data.
@@ -7,7 +8,7 @@ const API_BASE = '/api';
  */
 export const fetchReport = async (params, token) => {
     const query = new URLSearchParams(params).toString();
-    const response = await fetch(`${API_BASE}/report?${query}`, {
+    const response = await authFetch(`${API_BASE}/report?${query}`, {
         headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();

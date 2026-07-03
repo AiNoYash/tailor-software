@@ -1,4 +1,5 @@
 const API_BASE = '/api';
+import authFetch from './authFetch';
 /**
  * Fetch all expense records (optionally filtered by month).
  * @param {string} token - JWT token
@@ -9,7 +10,7 @@ export const fetchExpenses = async (token, month = '') => {
     if (month) {
         url += `?month=${encodeURIComponent(month)}`;
     }
-    const response = await fetch(url, {
+    const response = await authFetch(url, {
         headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
@@ -22,7 +23,7 @@ export const fetchExpenses = async (token, month = '') => {
  * @param {string} token - JWT token
  */
 export const createExpense = async (expenseData, token) => {
-    const response = await fetch(`${API_BASE}/expenses`, {
+    const response = await authFetch(`${API_BASE}/expenses`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -41,7 +42,7 @@ export const createExpense = async (expenseData, token) => {
  * @param {string} token - JWT token
  */
 export const updateExpense = async (id, updates, token) => {
-    const response = await fetch(`${API_BASE}/expenses/${id}`, {
+    const response = await authFetch(`${API_BASE}/expenses/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -59,7 +60,7 @@ export const updateExpense = async (id, updates, token) => {
  * @param {string} token - JWT token
  */
 export const deleteExpense = async (id, token) => {
-    const response = await fetch(`${API_BASE}/expenses/${id}`, {
+    const response = await authFetch(`${API_BASE}/expenses/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
     });
@@ -74,7 +75,7 @@ export const deleteExpense = async (id, token) => {
  */
 export const fetchExpenseReport = async (params, token) => {
     const query = new URLSearchParams(params).toString();
-    const response = await fetch(`${API_BASE}/expenses/report?${query}`, {
+    const response = await authFetch(`${API_BASE}/expenses/report?${query}`, {
         headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
