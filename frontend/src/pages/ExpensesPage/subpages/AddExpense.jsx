@@ -4,6 +4,7 @@ import useAuthStore from '../../../store/useAuthStore';
 import useLanguageStore from '../../../store/useLanguageStore';
 import { t } from '../../../i18n';
 import { fetchExpenses, createExpense, updateExpense, deleteExpense } from '../../../api/expenses';
+import TransliterateInput from '../../../components/TransliterateInput/TransliterateInput';
 import './AddExpense.css';
 
 /**
@@ -238,7 +239,9 @@ const AddExpense = () => {
                             <label className="form-label" htmlFor="expense-description">
                                 {t('expense.description', language)}
                             </label>
-                            <textarea
+                            <TransliterateInput
+                                as="textarea"
+                                language={language}
                                 id="expense-description"
                                 className="form-input"
                                 placeholder={t('expense.description.placeholder', language)}

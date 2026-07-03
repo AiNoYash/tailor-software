@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Search, Trash2, Edit, Printer, X, Copy } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import PrintBillModal from '../../../components/PrintBillModal';
+import TransliterateInput from '../../../components/TransliterateInput/TransliterateInput';
 import useAuthStore from '../../../store/useAuthStore';
 import useLanguageStore from '../../../store/useLanguageStore';
 import { t } from '../../../i18n';
@@ -168,7 +169,7 @@ const SearchOrder = () => {
                 </div>
                 <div className="form-group">
                     <label className="form-label">{t('order.name', language)}</label>
-                    <input className="form-input" type="text" 
+                    <TransliterateInput as="input" language={language} className="form-input" type="text" 
                         value={params.name} onChange={(e) => setParams({ ...params, name: e.target.value })} />
                 </div>
                 <div className="form-group">

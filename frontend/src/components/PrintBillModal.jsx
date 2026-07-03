@@ -1,5 +1,4 @@
 import { Printer, X } from 'lucide-react';
-import Sanscript from '@indic-transliteration/sanscript';
 import { t } from '../i18n';
 import './PrintBillModal.css';
 
@@ -41,15 +40,7 @@ const PrintBillModal = ({ billNo, customer, pant, shirt, bottom, remaining, earl
     // All bill text is hardcoded Gujarati — use 'gu' for item type lookups
     const GU = 'gu';
 
-    // Transliterate English text to Gujarati for the printed bill
-    const toGuj = (text) => {
-        if (!text) return '';
-        try {
-            return Sanscript.t(text.toLowerCase(), 'itrans', 'gujarati');
-        } catch {
-            return text; // fallback to original if transliteration fails
-        }
-    };
+
 
     // Compute item rows for customer bill
     const itemRows = [];
@@ -104,8 +95,8 @@ const PrintBillModal = ({ billNo, customer, pant, shirt, bottom, remaining, earl
                         {pant.enabled && (
                             <div className="tailor-section">
                                 <div className="tailor-header">
-                                    <span>બિલ: <strong>{billNo}</strong></span>
-                                    <span>નામ: <strong>{toGuj(customer.customer_name)}</strong></span>
+                                    <span>બિલ: <strong style={{scale: "10"}}>{billNo}</strong></span>
+                                    <span>નામ: <strong>{customer. customer_name}</strong></span>
                                     <span>ડિલિવરી: <strong>{tailorDate}</strong></span>
                                 </div>
                                 <div className="tailor-subheader">
@@ -123,9 +114,9 @@ const PrintBillModal = ({ billNo, customer, pant, shirt, bottom, remaining, earl
                                             ))}
                                         </div>
                                         <div className="tailor-options">
-                                            {Object.keys(pant.options).filter(k => pant.options[k]).map(k => t(`order.pant.opt.${k}`, GU)).join(', ')}
+                                            {Object.keys(pant.options).filter(k => pant.options[k]).map(k => t(`order.pant.opt.${k}`, 'hi')).join(', ')}
                                         </div>
-                                        {pant.notes && <div className="tailor-notes"><strong>વિગત:</strong> {toGuj(pant.notes)}</div>}
+                                        {pant.notes && <div className="tailor-notes"><strong>વિગત:</strong> {pant.notes}</div>}
                                     </div>
                                     {pant.pattern && <img className="tailor-pattern-img" src={`/images/pant/${pant.pattern}.png`} alt="" />}
                                     <div className="sub-type"> {pant.sub_type}</div>
@@ -138,8 +129,8 @@ const PrintBillModal = ({ billNo, customer, pant, shirt, bottom, remaining, earl
                         {shirt.enabled && (
                             <div className="tailor-section">
                                 <div className="tailor-header">
-                                    <span>બિલ: <strong>{billNo}</strong></span>
-                                    <span>નામ: <strong>{toGuj(customer.customer_name)}</strong></span>
+                                    <span>બિલ: <strong style={{scale: "10"}}>{billNo}</strong></span>
+                                    <span>નામ: <strong>{customer.customer_name}</strong></span>
                                     <span>ડિલિવરી: <strong>{tailorDate}</strong></span>
                                 </div>
                                 <div className="tailor-subheader">
@@ -157,9 +148,9 @@ const PrintBillModal = ({ billNo, customer, pant, shirt, bottom, remaining, earl
                                             ))}
                                         </div>
                                         <div className="tailor-options">
-                                            {Object.keys(shirt.options).filter(k => shirt.options[k]).map(k => t(`order.shirt.opt.${k}`, GU)).join(', ')}
+                                            {Object.keys(shirt.options).filter(k => shirt.options[k]).map(k => t(`order.shirt.opt.${k}`, 'hi')).join(', ')}
                                         </div>
-                                        {shirt.notes && <div className="tailor-notes"><strong>વિગત:</strong> {toGuj(shirt.notes)}</div>}
+                                        {shirt.notes && <div className="tailor-notes"><strong>વિગત:</strong> {shirt.notes}</div>}
                                     </div>
                                     {shirt.pattern && <img className="tailor-pattern-img" src={`/images/shirt/${shirt.pattern}.png`} alt="" />}
                                     {(shirt.measurements.original_chest || shirt.measurements.original_weist || shirt.measurements.original_hip) && (
@@ -198,11 +189,11 @@ const PrintBillModal = ({ billNo, customer, pant, shirt, bottom, remaining, earl
                         <div className="bill-customer-info">
                             <div className="bill-info-field">
                                 <span className="bill-info-label">નામ :</span>
-                                <span className="bill-info-value"><strong>{toGuj(customer.customer_name)}</strong></span>
+                                <span className="bill-info-value"><strong>{customer.customer_name}</strong></span>
                             </div>
                             <div className="bill-info-field">
                                 <span className="bill-info-label">બિલ નં. :</span>
-                                <span className="bill-info-value"><strong>{billNo}</strong></span>
+                                <span className="bill-info-value"><strong style={{scale: "10"}}>{billNo}</strong></span>
                             </div>
                             <div className="bill-info-field">
                                 <span className="bill-info-label">મોબાઈલ :</span>
@@ -214,7 +205,7 @@ const PrintBillModal = ({ billNo, customer, pant, shirt, bottom, remaining, earl
                             </div>
                             <div className="bill-info-field">
                                 <span className="bill-info-label">સરનામું :</span>
-                                <span className="bill-info-value">{toGuj(customer.address)}</span>
+                                <span className="bill-info-value">{customer.address}</span>
                             </div>
                             <div className="bill-info-field">
                                 <span className="bill-info-label">ડિલિવરી :</span>

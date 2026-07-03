@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { Search } from 'lucide-react';
 import PrintBillModal from '../../../components/PrintBillModal';
+import TransliterateInput from '../../../components/TransliterateInput/TransliterateInput';
 import { useSearchParams, useLocation } from 'react-router-dom';
 import useAuthStore from '../../../store/useAuthStore';
 import useLanguageStore from '../../../store/useLanguageStore';
@@ -372,9 +373,9 @@ const AddOrder = () => {
 
                 <section className="order-section order-customer-section">
                     <div className="order-customer-grid">
-                        <div className="form-group"><label className="form-label">{t('order.name', language)}</label><input className="form-input" type="text" value={customer.customer_name} onChange={(e) => setCustomer({ ...customer, customer_name: e.target.value })} disabled={submitting} /></div>
+                        <div className="form-group"><label className="form-label">{t('order.name', language)}</label><TransliterateInput as="input" language={language} className="form-input" type="text" value={customer.customer_name} onChange={(e) => setCustomer({ ...customer, customer_name: e.target.value })} disabled={submitting} /></div>
                         <div className="form-group"><label className="form-label">{t('order.date', language)}</label><input className="form-input" type="date" value={customer.order_date} onChange={(e) => setCustomer({ ...customer, order_date: e.target.value })} disabled={submitting} /></div>
-                        <div className="form-group"><label className="form-label">{t('order.address', language)}</label><textarea className="form-input" rows="2" value={customer.address} onChange={(e) => setCustomer({ ...customer, address: e.target.value })} disabled={submitting} /></div>
+                        <div className="form-group"><label className="form-label">{t('order.address', language)}</label><TransliterateInput as="textarea" language={language} className="form-input" rows="2" value={customer.address} onChange={(e) => setCustomer({ ...customer, address: e.target.value })} disabled={submitting} /></div>
                         <div className="form-group"><label className="form-label">{t('order.mobile', language)}</label><input className="form-input" type="tel" inputMode="numeric" value={customer.mobile_no} onChange={(e) => setCustomer({ ...customer, mobile_no: e.target.value })} disabled={submitting} /></div>
                     </div>
                 </section>
@@ -407,7 +408,7 @@ const AddOrder = () => {
                                 </div>
                                 <div className="order-nag-vigat">
                                     <div className="form-group"><label className="form-label">{t('order.quantity', language)}</label><input className="form-input" type="number" inputMode="numeric" min="1" value={pant.quantity} onChange={(e) => setPant({ ...pant, quantity: e.target.value })} /></div>
-                                    <div className="form-group"><label className="form-label">{t('order.notes', language)}</label><textarea className="form-input" rows="3" value={pant.notes} onChange={(e) => setPant({ ...pant, notes: e.target.value })} /></div>
+                                    <div className="form-group"><label className="form-label">{t('order.notes', language)}</label><TransliterateInput as="textarea" language={language} className="form-input" rows="3" value={pant.notes} onChange={(e) => setPant({ ...pant, notes: e.target.value })} /></div>
                                 </div>
                             </div>
                         </div>
@@ -441,7 +442,7 @@ const AddOrder = () => {
                                 </div>
                                 <div className="order-nag-vigat">
                                     <div className="form-group"><label className="form-label">{t('order.quantity', language)}</label><input className="form-input" type="number" inputMode="numeric" min="1" value={shirt.quantity} onChange={(e) => setShirt({ ...shirt, quantity: e.target.value })} /></div>
-                                    <div className="form-group"><label className="form-label">{t('order.notes', language)}</label><textarea className="form-input" rows="3" value={shirt.notes} onChange={(e) => setShirt({ ...shirt, notes: e.target.value })} /></div>
+                                    <div className="form-group"><label className="form-label">{t('order.notes', language)}</label><TransliterateInput as="textarea" language={language} className="form-input" rows="3" value={shirt.notes} onChange={(e) => setShirt({ ...shirt, notes: e.target.value })} /></div>
                                 </div>
                             </div>
                         </div>

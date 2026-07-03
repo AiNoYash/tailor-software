@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS orders (
     sewing_total DECIMAL(10, 2) DEFAULT 0.00,
     deposit_amount DECIMAL(10, 2) DEFAULT 0.00,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS order_items (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -55,4 +55,5 @@ CREATE TABLE IF NOT EXISTS expenses(
     amount DECIMAL(10, 2) DEFAULT 0.00,
     description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
