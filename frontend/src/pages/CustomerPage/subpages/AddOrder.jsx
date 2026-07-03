@@ -43,6 +43,12 @@ const PANT_MEASUREMENT_GRID = [
     [null, null, null, null, null, null]
 ];
 
+/* ─── custom tab order for measurement grids ─── */
+// Pant: lambai → kamar → sit → jang → jang_loose → jolo → moli → fiting, then remaining
+const PANT_TAB_ORDER = ['lambai', 'kamar', 'sit', 'jang', 'jang_loose', 'jolo', 'moli', 'fiting', 'gothan', 'sit_loose'];
+// Shirt: lambai → chhati → chest → weist → hip → shoulder → sleeve → collar → kaf_ni_lambai → kaf_ni_saij → sleeve_fitting_1 → sleeve_fitting_2 → sleeve_moli
+const SHIRT_TAB_ORDER = ['lambai', 'chhati', 'chest', 'weist', 'hip', 'shoulder', 'sleeve', 'collar', 'kaf_ni_lambai', 'kaf_ni_saij', 'sleeve_fitting_1', 'sleeve_fitting_2', 'sleeve_moli'];
+
 /* ─── measurement layout maps ─── */
 const defaultShirtMeasurements = {
     lambai: '', chhati: '', chest: '', weist: '', hip: '',
@@ -103,6 +109,8 @@ const AddOrder = () => {
     const token = useAuthStore((state) => state.token);
     const language = useLanguageStore((state) => state.language);
     const formRef = useRef(null);
+    const pantGridRef = useRef(null);
+    const shirtGridRef = useRef(null);
     const [searchParams, setSearchParams] = useSearchParams();
     const location = useLocation();
 
@@ -232,6 +240,43 @@ const AddOrder = () => {
     const togglePantOption = (key) => setPant({ ...pant, options: { ...pant.options, [key]: !pant.options[key] } });
     const toggleShirtOption = (key) => setShirt({ ...shirt, options: { ...shirt.options, [key]: !shirt.options[key] } });
 
+    /* ── custom tab/enter navigation for measurement grids ── */
+    const handleMeasKeyDown = useCallback((e, tabOrder, gridRef) => {
+        if (e.key !== 'Tab' && e.key !== 'Enter') return;
+        e.preventDefault();
+
+        const currentKey = e.target.getAttribute('data-meas-key');
+        if (!currentKey) return;
+
+        const currentIndex = tabOrder.indexOf(currentKey);
+        if (currentIndex === -1) return;
+
+        const reverse = e.shiftKey;
+        const nextIndex = reverse ? currentIndex - 1 : currentIndex + 1;
+
+        if (nextIndex >= 0 && nextIndex < tabOrder.length) {
+            // Focus next/prev measurement input within this grid
+            const nextKey = tabOrder[nextIndex];
+            const nextInput = gridRef.current?.querySelector(`[data-meas-key="${nextKey}"]`);
+            if (nextInput) {
+                nextInput.focus();
+                nextInput.select();
+            }
+        } else if (!reverse) {
+            // Tab forward past last measurement — let focus move naturally to next element after grid
+            const allFocusable = Array.from(
+                gridRef.current?.closest('.order-item-section')?.querySelectorAll(
+                    'input:not([style*="hidden"]):not([readOnly]), select, textarea, button:not([type="button"])'
+                ) || []
+            );
+            const gridInputs = new Set(
+                Array.from(gridRef.current?.querySelectorAll('[data-meas-key]') || [])
+            );
+            const afterGrid = allFocusable.filter(el => !gridInputs.has(el));
+            if (afterGrid.length > 0) afterGrid[0].focus();
+        }
+    }, []);
+
     /* ── submit ── */
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -294,8 +339,26 @@ const AddOrder = () => {
     const remaining = Math.max(0, sumTotal - (Number(bottom.deposit_amount) || 0));
 
     /* ═══════════════════════════════════ RENDER ═══════════════════════════════════ */
+    /* ── prevent Enter from submitting the form globally ── */
+    const handleFormKeyDown = (e) => {
+        if (e.key === 'Enter' && e.target.tagName === 'INPUT' && e.target.type !== 'submit') {
+            e.preventDefault();
+            // Move to next focusable element (mimics Tab)
+            const form = formRef.current?.querySelector('form') || formRef.current;
+            if (!form) return;
+            const focusable = Array.from(form.querySelectorAll(
+                'input:not([style*="hidden"]):not([readOnly]):not([tabindex="-1"]), select, textarea'
+            )).filter(el => !el.disabled);
+            const idx = focusable.indexOf(e.target);
+            if (idx !== -1 && idx < focusable.length - 1) {
+                focusable[idx + 1].focus();
+                if (focusable[idx + 1].select) focusable[idx + 1].select();
+            }
+        }
+    };
+
     return (
-        <div className="add-order-page" ref={formRef}>
+        <div className="add-order-page" ref={formRef} onKeyDown={handleFormKeyDown}>
             <form className="add-order-form" onSubmit={handleSubmit}>
                 <div className="order-bill-row">
                     <div className="order-bill-lookup">
@@ -329,8 +392,8 @@ const AddOrder = () => {
                                 <select className="form-input form-select" value={pant.sub_type} onChange={(e) => setPant({ ...pant, sub_type: e.target.value })}>{PANT_SUB_TYPES.map((st) => (<option key={st} value={st}>{st}</option>))}</select>
                             </div>
                             <div className="order-item-body">
-                                <div className="order-measurements pant-measurements">
-                                    {PANT_MEASUREMENT_GRID.flat().map((key, index) => key ? <input key={key} className={`meas-box p-box-${key}`} title={key} type="text" value={pant.measurements[key] || ''} onChange={(e) => updatePantMeasurement(key, e.target.value)} /> : <input key={`empty-${index}`} className="meas-box empty-meas-box" style={{ visibility: 'hidden' }} readOnly />)}
+                                <div className="order-measurements pant-measurements" ref={pantGridRef}>
+                                    {PANT_MEASUREMENT_GRID.flat().map((key, index) => key ? <input key={key} className={`meas-box p-box-${key}`} title={key} type="text" data-meas-key={key} tabIndex={PANT_TAB_ORDER.indexOf(key) + 1} value={pant.measurements[key] || ''} onChange={(e) => updatePantMeasurement(key, e.target.value)} onKeyDown={(e) => handleMeasKeyDown(e, PANT_TAB_ORDER, pantGridRef)} /> : <input key={`empty-${index}`} className="meas-box empty-meas-box" style={{ visibility: 'hidden' }} readOnly tabIndex={-1} />)}
                                 </div>
                                 <div className="order-pattern-selector">
                                     <div className="order-pattern-selected">{pant.pattern ? <img src={`/images/pant/${pant.pattern}.png`} alt="Pattern" /> : <div className="order-pattern-placeholder" />}</div>
@@ -358,8 +421,8 @@ const AddOrder = () => {
                                 <select className="form-input form-select" value={shirt.type} onChange={(e) => setShirt({ ...shirt, type: e.target.value })}>{SHIRT_TYPES.map((st) => (<option key={st} value={st}>{t(`order.shirt.type.${st}`, language)}</option>))}</select>
                             </div>
                             <div className="order-item-body">
-                                <div className="order-measurements shirt-measurements">
-                                    {SHIRT_MEASUREMENT_GRID.flat().map((key, index) => key ? <input key={key} className={`meas-box s-box-${key}`} type="text" title={key} value={shirt.measurements[key] || ''} onChange={(e) => updateShirtMeasurement(key, e.target.value)} /> : <input key={`empty-s-${index}`} className="meas-box empty-meas-box" style={{ visibility: 'hidden' }} readOnly />)}
+                                <div className="order-measurements shirt-measurements" ref={shirtGridRef}>
+                                    {SHIRT_MEASUREMENT_GRID.flat().map((key, index) => key ? <input key={key} className={`meas-box s-box-${key}`} type="text" title={key} data-meas-key={key} tabIndex={SHIRT_TAB_ORDER.indexOf(key) + 1} value={shirt.measurements[key] || ''} onChange={(e) => updateShirtMeasurement(key, e.target.value)} onKeyDown={(e) => handleMeasKeyDown(e, SHIRT_TAB_ORDER, shirtGridRef)} /> : <input key={`empty-s-${index}`} className="meas-box empty-meas-box" style={{ visibility: 'hidden' }} readOnly tabIndex={-1} />)}
                                 </div>
                                 <div className="order-pattern-selector">
                                     <div className="order-pattern-selected">{shirt.pattern ? <img src={`/images/shirt/${shirt.pattern}.png`} alt="Pattern" /> : <div className="order-pattern-placeholder" />}</div>
