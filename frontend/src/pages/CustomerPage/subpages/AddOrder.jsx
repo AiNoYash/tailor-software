@@ -340,6 +340,13 @@ const AddOrder = () => {
     const remaining = Math.max(0, sumTotal - (Number(bottom.deposit_amount) || 0));
 
     /* ═══════════════════════════════════ RENDER ═══════════════════════════════════ */
+    /* ── prevent scroll-wheel from changing number inputs ── */
+    const handleFormWheel = useCallback((e) => {
+        if (e.target.type === 'number') {
+            e.target.blur();
+        }
+    }, []);
+
     /* ── prevent Enter from submitting the form globally ── */
     const handleFormKeyDown = (e) => {
         if (e.key === 'Enter' && e.target.tagName === 'INPUT' && e.target.type !== 'submit') {
@@ -359,7 +366,7 @@ const AddOrder = () => {
     };
 
     return (
-        <div className="add-order-page" ref={formRef} onKeyDown={handleFormKeyDown}>
+        <div className="add-order-page" ref={formRef} onKeyDown={handleFormKeyDown} onWheel={handleFormWheel}>
             <form className="add-order-form" onSubmit={handleSubmit}>
                 <div className="order-bill-row">
                     <div className="order-bill-lookup">
@@ -407,7 +414,7 @@ const AddOrder = () => {
                                     {PANT_OPTIONS.map((key) => (<label key={key} className="order-checkbox-label"><input type="checkbox" checked={pant.options[key]} onChange={() => togglePantOption(key)} /><span>{t(`order.pant.opt.${key}`, language)}</span></label>))}
                                 </div>
                                 <div className="order-nag-vigat">
-                                    <div className="form-group"><label className="form-label">{t('order.quantity', language)}</label><input className="form-input" type="number" inputMode="numeric" min="1" value={pant.quantity} onChange={(e) => setPant({ ...pant, quantity: e.target.value })} /></div>
+                                    <div className="form-group"><label className="form-label">{t('order.quantity', language)}</label><input className="form-input" type="number" inputMode="numeric" min="1" value={pant.quantity} onChange={(e) => { const v = e.target.value; setPant(prev => ({ ...prev, quantity: v })); }} /></div>
                                     <div className="form-group"><label className="form-label">{t('order.notes', language)}</label><TransliterateInput as="textarea" language={language} className="form-input" rows="3" value={pant.notes} onChange={(e) => setPant({ ...pant, notes: e.target.value })} /></div>
                                 </div>
                             </div>
@@ -441,7 +448,7 @@ const AddOrder = () => {
                                     {SHIRT_OPTIONS.map((key) => (<label key={key} className="order-checkbox-label"><input type="checkbox" checked={shirt.options[key]} onChange={() => toggleShirtOption(key)} /><span>{t(`order.shirt.opt.${key}`, language)}</span></label>))}
                                 </div>
                                 <div className="order-nag-vigat">
-                                    <div className="form-group"><label className="form-label">{t('order.quantity', language)}</label><input className="form-input" type="number" inputMode="numeric" min="1" value={shirt.quantity} onChange={(e) => setShirt({ ...shirt, quantity: e.target.value })} /></div>
+                                    <div className="form-group"><label className="form-label">{t('order.quantity', language)}</label><input className="form-input" type="number" inputMode="numeric" min="1" value={shirt.quantity} onChange={(e) => { const v = e.target.value; setShirt(prev => ({ ...prev, quantity: v })); }} /></div>
                                     <div className="form-group"><label className="form-label">{t('order.notes', language)}</label><TransliterateInput as="textarea" language={language} className="form-input" rows="3" value={shirt.notes} onChange={(e) => setShirt({ ...shirt, notes: e.target.value })} /></div>
                                 </div>
                             </div>

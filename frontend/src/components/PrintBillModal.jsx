@@ -253,7 +253,7 @@ const PrintBillModal = ({ billNo, customer, pant, shirt, bottom, remaining, earl
                                 <span className="bill-fin-value">₹{grandTotal}</span>
                             </div>
                             <div className="bill-financial-row">
-                                <span className="bill-fin-label">જમા :</span>
+                                <span className="bill-fin-label">અડવાન્સ :</span>
                                 <span className="bill-fin-value">₹{bottom.deposit_amount || 0}</span>
                             </div>
                             <div className="bill-financial-row bill-total-row">
