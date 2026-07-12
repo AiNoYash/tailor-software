@@ -133,7 +133,7 @@ const SearchOrder = () => {
                         measurements: det.measurements || {},
                         pattern: det.pattern || '',
                         options: det.options || {},
-                        quantity: item.quantity || 1,
+                        quantity: item.quantity ?? 0,
                         notes: det.notes || '',
                     };
                 } else if (item.item_type === 'shirt') {
@@ -143,7 +143,7 @@ const SearchOrder = () => {
                         measurements: det.measurements || {},
                         pattern: det.pattern || '',
                         options: det.options || {},
-                        quantity: item.quantity || 1,
+                        quantity: item.quantity ?? 0,
                         notes: det.notes || '',
                     };
                 }
