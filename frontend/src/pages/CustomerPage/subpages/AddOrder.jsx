@@ -95,12 +95,12 @@ const defaultCustomer = { customer_name: '', mobile_no: '', address: '', order_d
 const defaultPant = {
     enabled: false, type: PANT_TYPES[0], sub_type: PANT_SUB_TYPES[0],
     measurements: { ...defaultPantMeasurements }, pattern: '',
-    options: Object.fromEntries(PANT_OPTIONS.map((k) => [k, false])), quantity: 1, notes: ''
+    options: Object.fromEntries(PANT_OPTIONS.map((k) => [k, false])), quantity: 0, notes: ''
 };
 
 const defaultShirt = {
     enabled: false, type: SHIRT_TYPES[0], measurements: { ...defaultShirtMeasurements },
-    pattern: '', options: Object.fromEntries(SHIRT_OPTIONS.map((k) => [k, false])), quantity: 1, notes: ''
+    pattern: '', options: Object.fromEntries(SHIRT_OPTIONS.map((k) => [k, false])), quantity: 0, notes: ''
 };
 
 const defaultBottom = { delivery_date: todayISO(), total_amount: '', sewing_total: '', deposit_amount: '' };
@@ -160,14 +160,14 @@ const AddOrder = () => {
                     newPant = {
                         enabled: true, type: det.type || PANT_TYPES[0], sub_type: det.sub_type || PANT_SUB_TYPES[0],
                         measurements: det.measurements || { ...defaultPantMeasurements }, pattern: det.pattern || '',
-                        options: { ...defaultPant.options, ...(det.options || {}) }, quantity: item.quantity || 1, notes: det.notes || '',
-                    };
+                    options: { ...defaultPant.options, ...(det.options || {}) }, quantity: item.quantity ?? 0, notes: det.notes || '',
+                };
                 } else if (item.item_type === 'shirt') {
                     newShirt = {
                         enabled: true, type: det.type || SHIRT_TYPES[0], measurements: det.measurements || { ...defaultShirt.measurements },
-                        pattern: det.pattern || '', options: { ...defaultShirt.options, ...(det.options || {}) },
-                        quantity: item.quantity || 1, notes: det.notes || '',
-                    };
+                    pattern: det.pattern || '', options: { ...defaultShirt.options, ...(det.options || {}) },
+                    quantity: item.quantity ?? 0, notes: det.notes || '',
+                };
                 }
             }
             setPant(newPant);
@@ -218,13 +218,13 @@ const AddOrder = () => {
                 newPant = {
                     enabled: true, type: det.type || PANT_TYPES[0], sub_type: det.sub_type || PANT_SUB_TYPES[0],
                     measurements: det.measurements || { ...defaultPantMeasurements }, pattern: det.pattern || '',
-                    options: { ...defaultPant.options, ...(det.options || {}) }, quantity: item.quantity || 1, notes: det.notes || '',
+                    options: { ...defaultPant.options, ...(det.options || {}) }, quantity: item.quantity ?? 0, notes: det.notes || '',
                 };
             } else if (item.item_type === 'shirt') {
                 newShirt = {
                     enabled: true, type: det.type || SHIRT_TYPES[0], measurements: det.measurements || { ...defaultShirt.measurements },
                     pattern: det.pattern || '', options: { ...defaultShirt.options, ...(det.options || {}) },
-                    quantity: item.quantity || 1, notes: det.notes || '',
+                    quantity: item.quantity ?? 0, notes: det.notes || '',
                 };
             }
         }
@@ -291,13 +291,13 @@ const AddOrder = () => {
             const items = [];
             if (pant.enabled) {
                 items.push({
-                    item_type: 'pant', quantity: Number(pant.quantity) || 1,
+                    item_type: 'pant', quantity: Number(pant.quantity) || 0,
                     details: { type: pant.type, sub_type: pant.sub_type, measurements: pant.measurements, pattern: pant.pattern, options: pant.options, notes: pant.notes },
                 });
             }
             if (shirt.enabled) {
                 items.push({
-                    item_type: 'shirt', quantity: Number(shirt.quantity) || 1,
+                    item_type: 'shirt', quantity: Number(shirt.quantity) || 0,
                     details: { type: shirt.type, measurements: shirt.measurements, pattern: shirt.pattern, options: shirt.options, notes: shirt.notes },
                 });
             }
@@ -414,7 +414,7 @@ const AddOrder = () => {
                                     {PANT_OPTIONS.map((key) => (<label key={key} className="order-checkbox-label"><input type="checkbox" checked={pant.options[key]} onChange={() => togglePantOption(key)} /><span>{t(`order.pant.opt.${key}`, language)}</span></label>))}
                                 </div>
                                 <div className="order-nag-vigat">
-                                    <div className="form-group"><label className="form-label">{t('order.quantity', language)}</label><input className="form-input" type="number" inputMode="numeric" min="1" value={pant.quantity} onChange={(e) => { const v = e.target.value; setPant(prev => ({ ...prev, quantity: v })); }} /></div>
+                                    <div className="form-group"><label className="form-label">{t('order.quantity', language)}</label><input className="form-input" type="number" inputMode="numeric" min="0" value={pant.quantity} onChange={(e) => { const v = e.target.value; setPant(prev => ({ ...prev, quantity: v })); }} /></div>
                                     <div className="form-group"><label className="form-label">{t('order.notes', language)}</label><TransliterateInput as="textarea" language={language} className="form-input" rows="3" value={pant.notes} onChange={(e) => setPant({ ...pant, notes: e.target.value })} /></div>
                                 </div>
                             </div>
@@ -448,7 +448,7 @@ const AddOrder = () => {
                                     {SHIRT_OPTIONS.map((key) => (<label key={key} className="order-checkbox-label"><input type="checkbox" checked={shirt.options[key]} onChange={() => toggleShirtOption(key)} /><span>{t(`order.shirt.opt.${key}`, language)}</span></label>))}
                                 </div>
                                 <div className="order-nag-vigat">
-                                    <div className="form-group"><label className="form-label">{t('order.quantity', language)}</label><input className="form-input" type="number" inputMode="numeric" min="1" value={shirt.quantity} onChange={(e) => { const v = e.target.value; setShirt(prev => ({ ...prev, quantity: v })); }} /></div>
+                                    <div className="form-group"><label className="form-label">{t('order.quantity', language)}</label><input className="form-input" type="number" inputMode="numeric" min="0" value={shirt.quantity} onChange={(e) => { const v = e.target.value; setShirt(prev => ({ ...prev, quantity: v })); }} /></div>
                                     <div className="form-group"><label className="form-label">{t('order.notes', language)}</label><TransliterateInput as="textarea" language={language} className="form-input" rows="3" value={shirt.notes} onChange={(e) => setShirt({ ...shirt, notes: e.target.value })} /></div>
                                 </div>
                             </div>

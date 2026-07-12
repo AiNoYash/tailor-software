@@ -120,8 +120,8 @@ const SearchOrder = () => {
                 deposit_amount: order.deposit_amount || 0,
             };
 
-            let pant = { enabled: false, type: '', sub_type: '', measurements: {}, pattern: '', options: {}, quantity: 1 };
-            let shirt = { enabled: false, type: '', measurements: {}, pattern: '', options: {}, quantity: 1 };
+            let pant = { enabled: false, type: '', sub_type: '', measurements: {}, pattern: '', options: {}, quantity: 0 };
+            let shirt = { enabled: false, type: '', measurements: {}, pattern: '', options: {}, quantity: 0 };
 
             for (const item of items) {
                 const det = item.details || {};

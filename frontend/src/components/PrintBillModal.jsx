@@ -227,7 +227,7 @@ const PrintBillModal = ({ billNo, customer, pant, shirt, bottom, remaining, earl
                                     <tr key={idx}>
                                         <td>{item.name}</td>
                                         <td>{item.qty}</td>
-                                        <td></td>
+                                        <td>{idx === 1 && "₹" + bottom.sewing_total}</td>
                                     </tr>
                                 ))}
                                 <tr className="empty-row">
@@ -243,10 +243,6 @@ const PrintBillModal = ({ billNo, customer, pant, shirt, bottom, remaining, earl
                             <div className="bill-financial-row">
                                 <span className="bill-fin-label">કાપડ ના ટોટલ :</span>
                                 <span className="bill-fin-value">₹{bottom.total_amount || 0}</span>
-                            </div>
-                            <div className="bill-financial-row">
-                                <span className="bill-fin-label">સિલાઈ ના ટોટલ :</span>
-                                <span className="bill-fin-value">₹{bottom.sewing_total || 0}</span>
                             </div>
                             <div className="bill-financial-row bill-total-row">
                                 <span className="bill-fin-label">કુલ :</span>

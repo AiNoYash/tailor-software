@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS order_items (
     id INT AUTO_INCREMENT PRIMARY KEY,
     order_id INT NOT NULL,
     item_type ENUM('pant', 'shirt') NOT NULL,
-    quantity INT DEFAULT 1,
+    quantity INT DEFAULT 0,
     details JSON,
     FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
